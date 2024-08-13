@@ -33,7 +33,7 @@ export default function Header(){
             />
             <div className='flex gap-7 justify-center'>
                 <NavLink 
-                    title={"Home"} 
+                    title={"My Home"} 
                     subtitles={["My Home", "Website Home"]}
                     onClick={() => handleMenuClick("home")}
                     isOpen={openMenu == "home"}
