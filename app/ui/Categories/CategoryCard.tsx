@@ -1,7 +1,7 @@
 import React from 'react'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 
-export default function CategoryCard(props: {name: string, imageURL: string}) {
+export default function CategoryCard(props: {name: string, imageURL: StaticImageData}) {
     return(
         <div>
             <Image
