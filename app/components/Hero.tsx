@@ -12,10 +12,10 @@ export default function Hero(){
                 alt={"Image of three tacos"}
             />
             <div className={`absolute inset-0 flex flex-col justify-center items-start p-4 `}>
-                <h1 className="text-7xl font-bold tracking-widest text-white p.with-eight">Australia's Best Mexican Food</h1>
+                {/* <h1 className="text-7xl font-bold tracking-widest text-white p.with-eight">Australia's Best Mexican Food</h1>
                 <button className='bg-green-500 hover:bg-green-50 hover:text-black text-white rounded-xl font-semibold shadow-lg p-2 mt-8'>
                     Order Now
-                </button>
+                </button> */}
             </div>
         </div>
     )
