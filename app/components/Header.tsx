@@ -7,7 +7,7 @@ import { CiUser, CiShoppingCart } from "react-icons/ci";
 import NavLink from "@/app/ui/Nav/NavLink"
 import Cart from './Cart';
 
-export default function Header(){
+export default function Header() {
     const [openMenu, setOpenMenu] = useState<string | null>(null);
 
     function handleMenuClick(menu: string) {
@@ -22,7 +22,7 @@ export default function Header(){
     }
 
 
-    return(
+    return (
         <nav className="flex gap-5 justify-between bg-white sticky top-0 w-full z-40">
             <Image
                 className="mr auto flex"
@@ -32,26 +32,26 @@ export default function Header(){
                 height={100}
             />
             <div className='flex gap-7 justify-center'>
-                <NavLink 
-                    title={"My Home"} 
+                <NavLink
+                    title={"Our Home"}
                     subtitles={["My Home", "Website Home"]}
                     onClick={() => handleMenuClick("home")}
                     isOpen={openMenu == "home"}
                 />
-                <NavLink 
-                    title={"Menu"} 
+                <NavLink
+                    title={"Menu"}
                     subtitles={["Every restaurant", "My Restaurants", "Categories"]}
                     onClick={() => handleMenuClick("menu")}
                     isOpen={openMenu == "menu"}
                 />
-                <NavLink 
-                    title={"Locations"} 
+                <NavLink
+                    title={"Locations"}
                     subtitles={["Find your nearest location", "All locations"]}
                     onClick={() => handleMenuClick("locations")}
                     isOpen={openMenu == "locations"}
                 />
-                <NavLink 
-                    title={"Offers"} 
+                <NavLink
+                    title={"Offers"}
                     subtitles={["Latest Offers", "Best Offers"]}
                     onClick={() => handleMenuClick("offers")}
                     isOpen={openMenu == "offers"}
@@ -61,9 +61,9 @@ export default function Header(){
                 <button><CiUser /></button>
                 <button onClick={handleCartClick}><CiShoppingCart /></button>
             </div>
-            {cartOpen && <Cart cartOpen={cartOpen}/>}
+            {cartOpen && <Cart cartOpen={cartOpen} />}
         </nav>
 
     )
-    
+
 };
