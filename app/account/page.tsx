@@ -2,14 +2,14 @@ import React from 'react'
 import Login from './Login'
 import Account from './MyAccount'
 
-export default function Page(props: {loggedIn: boolean}){
-    
-    
+export default function Page(){
+
+    const loggedIn = false
 
     return(
         <section>
-            {props.loggedIn && <Login />}
-            {props.loggedIn && <Account />}
+            {loggedIn && <Login />}
+            {loggedIn && <Account />}
         </section>
     )
 }

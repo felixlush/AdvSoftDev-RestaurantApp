@@ -6,6 +6,7 @@ import Image from "next/image"
 import { CiUser, CiShoppingCart } from "react-icons/ci";
 import NavLink from "@/app/ui/Nav/NavLink"
 import Cart from './Cart';
+import Link from 'next/link'
 
 export default function Header() {
     const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -58,7 +59,7 @@ export default function Header() {
                 />
             </div>
             <div className='flex self-center gap-5 mr-6'>
-                <button><CiUser /></button>
+                <Link href={"/account"}><CiUser /></Link>
                 <button onClick={handleCartClick}><CiShoppingCart /></button>
             </div>
             {cartOpen && <Cart cartOpen={cartOpen} />}
