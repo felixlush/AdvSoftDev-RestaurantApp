@@ -10,7 +10,7 @@ export default function Login() {
 
     return (
         <div>
-            <form onSubmit={handleLogin}>
+            <form>
                 <label>
                 Username:
                 <input
