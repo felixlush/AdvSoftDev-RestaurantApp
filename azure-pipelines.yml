@@ -9,14 +9,9 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-# - task: UseNode@1
-#   inputs:
-#     versionSpec: '21.5.0' 
-#   displayName: 'Use Node.js 21.5.0'
-
 - task: UseNode@1
   inputs:
-    version: '21.5.0'
+    version: '21.5.0'  # Corrected to use 'version'
   displayName: 'Use Node.js 21.5.0'
 
 - script: node -v
@@ -26,5 +21,3 @@ pool:
     npm install
     npm run build
   displayName: 'npm install and build'
-
-
