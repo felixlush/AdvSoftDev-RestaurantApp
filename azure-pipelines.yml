@@ -9,11 +9,6 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: |
-    sudo rm -rf /opt/hostedtoolcache/node/
-  displayName: 'Clear Node.js Tool Cache'
-
 - task: UseNode@1
   inputs:
     versionSpec: '21.5.0' 
