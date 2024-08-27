@@ -9,19 +9,22 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+# - task: UseNode@1
+#   inputs:
+#     versionSpec: '21.5.0' 
+#   displayName: 'Use Node.js 21.5.0'
+
 - task: UseNode@1
   inputs:
-    versionSpec: '21.5.0' 
+    version: '21.5.0'
   displayName: 'Use Node.js 21.5.0'
-
 
 - script: node -v
   displayName: 'Check Node.js Version'
 
 - script: |
-    npm cache clean --force
-    npm ci
+    npm install
     npm run build
-  displayName: 'Clean npm install and build'
+  displayName: 'npm install and build'
 
 
