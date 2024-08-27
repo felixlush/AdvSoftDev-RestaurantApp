@@ -9,11 +9,10 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
 - task: UseNode@1
   inputs:
-    versionSpec: '10.2.4' 
-  displayName: 'Use Node.js 10.2.4'
+    versionSpec: '16.x'
+  displayName: 'Use Node.js 16.x'
 
 - script: |
     npm install
