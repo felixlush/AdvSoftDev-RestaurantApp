@@ -9,13 +9,17 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+steps:
 - task: UseNode@1
   inputs:
-    versionSpec: '16.x'
+    versionSpec: '16.x' 
   displayName: 'Use Node.js 16.x'
-  
+
+- script: node -v
+  displayName: 'Check Node.js Version'
 
 - script: |
     npm install
     npm run build
   displayName: 'npm install and build'
+
