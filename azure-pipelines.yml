@@ -40,7 +40,7 @@ steps:
   inputs:
     sourceFolder: '$(Build.SourcesDirectory)'
     contents: |
-      app/*
+      src/*
       public/*
     targetFolder: '$(Build.ArtifactStagingDirectory)'
   displayName: 'Copy project files'
