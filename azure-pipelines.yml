@@ -9,21 +9,23 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+steps:
 - script: |
     sudo rm -rf /opt/hostedtoolcache/node/
-  displayName: 'Clear Node.js Tool Cache'  
+  displayName: 'Clear Node.js Tool Cache'
 
-steps:
 - task: UseNode@1
   inputs:
-    versionSpec: '16.x' 
-  displayName: 'Use Node.js 16.x'
+    versionSpec: '21.5.0' 
+  displayName: 'Use Node.js 21.5.0'
 
 - script: node -v
   displayName: 'Check Node.js Version'
 
 - script: |
-    npm install
+    npm cache clean --force
+    npm ci
     npm run build
-  displayName: 'npm install and build'
+  displayName: 'Clean npm install and build'
+
 
