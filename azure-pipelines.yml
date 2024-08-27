@@ -23,3 +23,15 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
+# Add steps to publish the build artifacts
+- task: CopyFiles@2
+  inputs:
+    contents: '**/dist/**'  # Adjust this path to the location of your build output
+    targetFolder: '$(Build.ArtifactStagingDirectory)/dist'
+  displayName: 'Copy build artifacts to staging directory'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)/dist'
+    artifact: 'build'
+  displayName: 'Publish build artifacts'
