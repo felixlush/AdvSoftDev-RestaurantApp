@@ -40,8 +40,15 @@ steps:
   inputs:
     sourceFolder: '$(Build.SourcesDirectory)'
     contents: |
-      src/*
-      public/*
+      app/**            # Include app directory
+      api/**            # Include api directory
+      public/**         # Include public directory
+      .env              # Include environment file if needed
+      next.config.mjs   # Next.js configuration file
+      package.json      # Package file for dependencies
+      package-lock.json # Lock file for npm dependencies
+      tailwind.config.js # Tailwind CSS configuration
+      README.md         # Project documentation
     targetFolder: '$(Build.ArtifactStagingDirectory)'
   displayName: 'Copy project files'
 

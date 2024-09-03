@@ -1,15 +1,26 @@
-export type Product = {
-    name: string
-    price: number
-    id: number
-    image: string
+export type MenuItem = {
+    item_id: number,
+    item_name: string,
+    description: string,
+    price: number,
+    category: string,
+    avaliable: boolean,
 }
 
-export type ProductOrder = {
-    product: Product
-    id: number
-    quantity: number
-    totalPrice: number
+export type Order = {
+    order_id: number
+    user_id: number
+    order_status: string
+    total_amount: number
+    payment_status: string
+}
+
+export type OrderItems = {
+    order_item_id: number,
+    order_id: number,
+    item_id: number,
+    quantity: number,
+    price_at_purchase: number
 }
 
 export type User = {
@@ -17,5 +28,21 @@ export type User = {
     id: number,
     email: string,
     address: string,
-    password: string
+    postcode: string,
+    password: string,
+    type: string
 }
+
+export type Paymemt = {
+    payment_id: number,
+    order_id: number,
+    payment_method: string,
+    payment_amount: string,
+    payment_status: string,
+    payment_date: string
+}
+
+
+
+
+

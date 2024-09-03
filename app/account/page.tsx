@@ -1,15 +1,13 @@
 import React from 'react'
-import Login from './Login'
-import Account from './MyAccount'
+import Login from '../account/login/page'
+import Dashboard from './dashboard/page'
+
 
 export default function Page(){
 
-    const loggedIn = false
-
     return(
         <section>
-            {loggedIn && <Login />}
-            {loggedIn && <Account />}
+            <Login />
         </section>
     )
 }
