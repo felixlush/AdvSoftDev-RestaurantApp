@@ -1,8 +1,8 @@
-import { ProductOrder } from "@/app/lib/definitions";
+import { Order } from "@/app/lib/definitions";
 import React from "react";
 
 interface OrderCardProps {
-    orders: ProductOrder[]
+    orders: Order[]
 }
 
 export default function OrdersCard(orders: OrderCardProps){
