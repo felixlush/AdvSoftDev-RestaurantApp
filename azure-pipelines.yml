@@ -15,12 +15,13 @@ steps:
     version: '21.5.0' 
   displayName: 'Use Node.js 21.5.0'
 
-- script: node -v
+- script: | 
+    node -v
   displayName: 'Check Node.js Version'
 
 - script: |
-  npm install
-displayName: 'Install dependencies'
+    npm install
+  displayName: 'Install dependencies'
 
 - script: |
     npm run build  
