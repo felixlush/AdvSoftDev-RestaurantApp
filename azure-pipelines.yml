@@ -25,6 +25,6 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: '$(Build.SourcesDirectory)'
+    pathtoPublish: '$(Build.SourcesDirectory)/.next/ $(Build.SourcesDirectory)/public/ $(Build.SourcesDirectory)/package.json $(Build.SourcesDirectory)/next.config.js $(Build.SourcesDirectory)/package-lock.json $(Build.SourcesDirectory)/.env $(Build.SourcesDirectory)/next.config.mjs'
     artifactName: 'nextjs-build'
     publishLocation: 'Container'
