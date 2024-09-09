@@ -7,13 +7,18 @@ interface AccountCardProps{
 
 export default function AccountCard({user}: AccountCardProps){
     return(
-        <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 p-10 bg-slate-200">
-            <div className="p-10 shadow-lg rounded-md bg-slate-100 max-w-sm">
-                <h1 className="mb-10 font-semibold">My Details</h1>
-                <h2 className="mb-5">Name: {user.name}</h2>
-                <h2 className="mb-5">Email: {user.email}</h2>
-                <h2 className="mb-5">Address: {user.address}</h2>
+        <div className="flex justify-center p-10">
+            <div className="border rounded-lg p-4 shadow hover:shadow-lg transition w-full">
+                <div>
+                    <h1 className="mb-10 font-semibold p-5 tracking-widest">My Details</h1>
+                    <div className="p-4">
+                        <h2 className="mb-5">id: {user.id}</h2>
+                        <h2 className="mb-5">Name: {user.name}</h2>
+                        <h2 className="mb-5">Email: {user.email}</h2>
+                        <h2 className="mb-5">Address: {user.address}</h2>
+                    </div>
+                </div>
             </div>
-        </div>        
+        </div> 
     )
 }

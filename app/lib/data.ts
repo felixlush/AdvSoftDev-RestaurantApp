@@ -28,6 +28,29 @@ export async function createUser(email: string, password: string, address: strin
 
 }
 
+export async function updateUser(user: User){
+    try {
+        const result = await sql`UPDATE Users
+            SET 
+                name = ${user.name},
+                email = ${user.email},
+                address = ${user.address},
+                postcode = ${user.postcode},
+                type = ${user.type}
+            WHERE id = ${user.id}
+            RETURNING *;`;
+        
+        if (result.rowCount === 0){
+            return NextResponse.json({ error: 'Menu item not found' }, { status: 404 });
+        }
+        
+        return NextResponse.json({ message: 'Menu item updated successfully', menuItem: result.rows[0] });
+    } catch(error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to update menu data.');
+    }
+}
+
 export async function handleLogin(email: string, password: string){
 
     if (!email || !password) {
@@ -142,10 +165,10 @@ export async function fetchAllUsers(): Promise<User[] | undefined> {
     }
 }
 
-export async function getOrdersByUserID(userID: string): Promise<OrderItems[] | undefined> {
+export async function getOrdersByUserID(userID: string): Promise<Order[] | undefined> {
     try {
-        const orders = await sql<OrderItems>`
-            SELECT order_id, order_status, total_amount, payment_status 
+        const orders = await sql<Order>`
+            SELECT order_id, order_status, total_amount, payment_status, created_at  
             FROM orders 
             WHERE user_id = ${userID}
         `;

@@ -13,7 +13,8 @@ export type Order = {
     user_id: number
     order_status: string
     total_amount: number
-    payment_status: string
+    payment_status: string,
+    created_at: string
 }
 
 export type OrderItems = {

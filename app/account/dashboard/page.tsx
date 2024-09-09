@@ -22,10 +22,9 @@ async function fetchUserAndOrders(token: string) {
 
     const { user } = await userRes.json();
 
-    const ordersRes = await fetch(`http://localhost:3000/api/orders/${user.id}`);
-    const { orders } = await ordersRes.json();
 
-    return { user, orders };
+
+    return { user };
 }
 
 export default async function DashboardPage() {
@@ -47,13 +46,13 @@ export default async function DashboardPage() {
         redirect('/account/login');
     }
 
-    const { user, orders } = result;
+    const { user } = result;
 
     return (
         <section>
             <Header />
             <AccountCard user={user} />
-            <OrdersCard orders={orders} />
+            <OrdersCard userId={user.id || ""}/>
             <Footer />
         </section>
     );

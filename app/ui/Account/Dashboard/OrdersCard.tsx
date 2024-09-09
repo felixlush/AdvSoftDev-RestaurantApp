@@ -1,19 +1,65 @@
+'use client'
 import { Order } from "@/app/lib/definitions";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-interface OrderCardProps {
-    orders: Order[]
+interface orderIdProps{
+    userId: string
 }
 
-export default function OrdersCard(orders: OrderCardProps){
+export default function OrdersCard(props: orderIdProps){
+    const [orders, setOrders] = useState<Order[]>([])
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        const fetchOrder = async () => {
+            try {
+                const response = await fetch(`/api/orders/${props.userId}`);
+                const data = await response.json();
+                console.log(data.orders);
+                setOrders(data.orders);
+                setLoading(false);
+            }
+            catch (e) {
+                console.log("Couldn't get orders: " , e)
+                setLoading(false);
+            }
+        }
+        if (props.userId) {fetchOrder()}
+    }, [props.userId])
+
+    if (loading) {
+        return <div>Loading...</div>; 
+    }
+
     return(
-        <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 p-10 bg-slate-200">
-            <div className="p-10 shadow-lg rounded-md bg-slate-100">
-                <h1 className="mb-10 font-semibold">My Orders</h1>
-                <h2 className="mb-5">Name: {}</h2>
-                <h2 className="mb-5">Email: {}</h2>
-                <h2 className="mb-5">Address: {}</h2>
-                <h2 className="mb-5">Status: {}</h2>
+        <div className="flex justify-center p-10">
+            <div className="border rounded-lg p-4 shadow hover:shadow-lg transition w-full">
+            <h1 className="font-semibold p-5 tracking-widest">My Orders</h1>
+                <table className="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr>
+                            <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercas ">ID</th>
+                            <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Date</th>
+                            <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Total Price</th>
+                            <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Status</th>
+                            <th className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">View</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                        {orders.length > 0 ? (orders.map(order => (
+                            <tr key={order.order_id} className='p-2 border-b justify-evenly hover:bg-gray-100'>
+                                <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800'>{order.order_id}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{order.created_at.split("T", 1)}</td>
+                                <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800'>{order.total_amount}</td>
+                                <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800'>{order.payment_status}</td>
+                                <td><button className='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400'>View Items</button></td>
+                            </tr>
+                        ))
+                        ) : (
+                            <p className="p-4">No Orders Found</p>
+                        )}
+                    </tbody>
+                </table>
             </div>
         </div>  
     )
