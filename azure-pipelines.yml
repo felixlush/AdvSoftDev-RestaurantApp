@@ -19,12 +19,18 @@ steps:
   displayName: 'Check Node.js Version'
 
 - script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+    mkdir build_output
+    cp -R .next build_output/
+    cp -R public build_output/
+    cp package.json build_output/
+    cp next.config.js build_output/
+    cp package-lock.json build_output/
+    cp .env build_output/ || true  
+    cp next.config.mjs build_output/ || true  
+  displayName: 'Prepare build output for artifact'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: '$(Build.SourcesDirectory)/.next/ $(Build.SourcesDirectory)/public/ $(Build.SourcesDirectory)/package.json $(Build.SourcesDirectory)/next.config.js $(Build.SourcesDirectory)/package-lock.json $(Build.SourcesDirectory)/.env $(Build.SourcesDirectory)/next.config.mjs'
+    pathtoPublish: '$(Build.SourcesDirectory)/build_output'
     artifactName: 'nextjs-build'
     publishLocation: 'Container'
