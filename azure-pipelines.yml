@@ -23,38 +23,8 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
-# # Add steps to publish the build artifacts
-# - task: CopyFiles@2
-#   inputs:
-#     contents: '**/dist/**'  # Adjust this path to the location of your build output
-#     targetFolder: '$(Build.ArtifactStagingDirectory)/dist'
-#   displayName: 'Copy build artifacts to staging directory'
-
-# - task: PublishPipelineArtifact@1
-#   inputs:
-#     targetPath: '$(Build.ArtifactStagingDirectory)/dist'
-#     artifact: 'build'
-#   displayName: 'Publish build artifacts'
-
-- task: CopyFiles@2
+- task: PublishBuildArtifacts@1
   inputs:
-    sourceFolder: '$(Build.SourcesDirectory)'
-    contents: |
-      app/**            # Include app directory
-      api/**            # Include api directory
-      public/**         # Include public directory
-      .env              # Include environment file if needed
-      next.config.mjs   # Next.js configuration file
-      package.json      # Package file for dependencies
-      package-lock.json # Lock file for npm dependencies
-      tailwind.config.js # Tailwind CSS configuration
-      README.md         # Project documentation
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
-  displayName: 'Copy project files'
-
-- task: PublishPipelineArtifact@1
-  inputs:
-    artifactName: e2e-server
-    targetPath: '$(Build.ArtifactStagingDirectory)'
-    publishLocation: 'pipeline'
-  displayName: 'Publish npm artifact'  
+    pathtoPublish: '$(Build.SourcesDirectory)'
+    artifactName: 'nextjs-build'
+    publishLocation: 'Container'
