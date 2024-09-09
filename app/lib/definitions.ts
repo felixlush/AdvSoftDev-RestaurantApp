@@ -2,9 +2,10 @@ export type MenuItem = {
     item_id: number,
     item_name: string,
     description: string,
-    price: number,
+    price: string,
     category: string,
-    avaliable: boolean,
+    available: boolean,
+    image_url: string;
 }
 
 export type Order = {

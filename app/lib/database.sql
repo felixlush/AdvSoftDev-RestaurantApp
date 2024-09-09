@@ -16,6 +16,7 @@ CREATE TABLE MenuItems (
     price NUMERIC(10, 2) NOT NULL,
     category VARCHAR(100),
     available BOOLEAN DEFAULT TRUE,
+    image_url VARCHAR(500),
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
