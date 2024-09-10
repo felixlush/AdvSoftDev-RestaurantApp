@@ -64,7 +64,7 @@ export default function Header() {
     }
 
     if (loading) {
-        return <Bars/>; 
+        return <Bars />;
     }
 
     return (
@@ -92,20 +92,20 @@ export default function Header() {
                     href={"/menu"}
                 />
                 <NavLink
-                    title={"Locations"}
+                    title={" Restaurant Locations"}
                     subtitles={["Find your nearest location", "All locations"]}
                     onClick={() => handleMenuClick("locations")}
                     isOpen={openMenu == "locations"}
                     href={"/locations"}
                 />
                 {
-                    userType === "admin" && 
+                    userType === "admin" &&
                     <NavLink
-                    title={"Admin"}
-                    subtitles={["Edit Menu", "Check Orders"]}
-                    onClick={() => handleMenuClick("admin")}
-                    isOpen={openMenu == "admin"}
-                    href={"/admin"}
+                        title={"Admin"}
+                        subtitles={["Edit Menu", "Check Orders"]}
+                        onClick={() => handleMenuClick("admin")}
+                        isOpen={openMenu == "admin"}
+                        href={"/admin"}
                     />
                 }
             </div>
