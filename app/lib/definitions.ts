@@ -17,12 +17,16 @@ export type Order = {
     created_at: string
 }
 
-export type OrderItems = {
-    order_item_id: number,
-    order_id: number,
-    item_id: number,
-    quantity: number,
-    price_at_purchase: number
+export interface OrderItem {
+    order_item_id: number;
+    order_id: number;
+    item_id: number;
+    quantity: number;
+    price_at_purchase: number;
+    item_name: string;
+    description: string;
+    price: number;
+    image_url: string;
 }
 
 export type User = {

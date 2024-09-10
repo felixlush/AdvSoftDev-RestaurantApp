@@ -1,6 +1,6 @@
 'use server'
 import { sql } from '@vercel/postgres'
-import { User, MenuItem, Order, OrderItems } from '@/app/lib/definitions'
+import { User, MenuItem, Order, OrderItem } from '@/app/lib/definitions'
 import bcrypt from 'bcrypt'
 import { NextResponse } from 'next/server'
 
@@ -177,5 +177,27 @@ export async function getOrdersByUserID(userID: string): Promise<Order[] | undef
     } catch (error) {
         console.error('Failed to fetch orders:', error);
         throw new Error('Failed to fetch orders.');
+    }
+}
+
+export async function getOrderItemsByID(order_id: string): Promise<OrderItem[] | undefined> {
+    try {
+        const orderItems = await sql<OrderItem>`
+        SELECT 
+            OrderItems.order_item_id, 
+            OrderItems.quantity, 
+            OrderItems.price_at_purchase, 
+            MenuItems.item_name, 
+            MenuItems.description, 
+            MenuItems.price, 
+            MenuItems.image_url
+        FROM OrderItems
+        JOIN MenuItems ON OrderItems.item_id = MenuItems.item_id
+        WHERE OrderItems.order_id = ${order_id}
+        `;
+        return orderItems.rows;
+    } catch (error){
+        console.error('Failed to fetch order details:', error);
+        throw new Error('Failed to fetch order details.');
     }
 }

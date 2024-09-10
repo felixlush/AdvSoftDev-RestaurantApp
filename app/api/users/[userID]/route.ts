@@ -15,7 +15,7 @@ export async function PUT(req: Request){
 
 export async function GET(req: Request, { params }: { params: { userID: string } }){
     try {
-        console.log(`userID in users/route.ts ${params.userID}`)
+        // console.log(`userID in users/route.ts ${params.userID}`)
         const user = await getUserById(params.userID)
         if (!user) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
