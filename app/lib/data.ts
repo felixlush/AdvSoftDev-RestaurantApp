@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server'
 
 export async function createUser(email: string, password: string, address: string, name: string, postcode: string) {
     
-    console.log(password)
+    // console.log(password)
 
     if (!name || !email || !address || !password) {
         throw new Error('All fields are required');
@@ -54,7 +54,7 @@ export async function updateUser(user: User){
 export async function handleLogin(email: string, password: string){
 
     if (!email || !password) {
-        console.log(email + " " + password)
+        // console.log(email + " " + password)
         throw new Error('All fields are required');
     }
 

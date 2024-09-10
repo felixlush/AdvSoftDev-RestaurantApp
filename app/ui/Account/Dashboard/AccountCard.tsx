@@ -16,7 +16,7 @@ export default function AccountCard(props: AccountCardProps){
         const fetchUser = async () => {
             const response = await fetch(`/api/users/${props.userId}`)
             const data = await response.json();
-            console.log(data.user)
+            // console.log(data.user)
             setUser(data.user)
         }
         if (props.userId) {fetchUser()}

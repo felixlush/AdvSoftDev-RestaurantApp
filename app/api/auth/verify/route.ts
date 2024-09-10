@@ -24,11 +24,11 @@ export async function GET(req: NextRequest) {
     try {
         const { payload } = await jwtVerify(token, JWT_SECRET) as {payload: JWTPayload};
         const user = await getUserById(payload.userID);
-
+        
         if (!user) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
-
+        console.log(`Verified user is: ${JSON.stringify(user)}`);
         return NextResponse.json({ user });
     } catch (error) {
         return NextResponse.json({ error: 'Invalid token' }, { status: 500 });

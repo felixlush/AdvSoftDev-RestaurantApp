@@ -11,7 +11,7 @@ const AdminMenuPanel = () => {
     const handleSearch = async (term: string) => {
         const response = await fetch(`/api/menu?search=${term}`);
         const data = await response.json();
-        console.log('API Response:', data)
+        // console.log('API Response:', data)
         setMenuItems(data.menuItems || []);  
     };
 

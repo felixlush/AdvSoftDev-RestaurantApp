@@ -23,9 +23,8 @@ export default function Header() {
                 const data = await response.json();
 
                 if (response.ok && data) {
-                    console.log(data);
                     setLoggedIn(true);
-                    setUserType(data.userType);
+                    setUserType(data.user.type);
                 } else {
                     setLoggedIn(false);
                     setUserType('');
@@ -61,7 +60,7 @@ export default function Header() {
 
     function handleCartClick() {
         setCartOpen(prevCartOpen => !prevCartOpen);
-        console.log("cart open is " + cartOpen);
+        // console.log("cart open is " + cartOpen);
     }
 
     if (loading) {
@@ -100,7 +99,7 @@ export default function Header() {
                     href={"/locations"}
                 />
                 {
-                    userType === "customer" && 
+                    userType === "admin" && 
                     <NavLink
                     title={"Admin"}
                     subtitles={["Edit Menu", "Check Orders"]}

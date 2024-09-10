@@ -17,7 +17,7 @@ export default function DashboardPage() {
                 const response = await fetch('/api/auth/verify');
                 const data = await response.json();
                 if (response.ok && data) {
-                    console.log(data);
+                    // console.log(data);
                     setUserId(data.user.id);
                 } else {
                     console.log("Log in failed")

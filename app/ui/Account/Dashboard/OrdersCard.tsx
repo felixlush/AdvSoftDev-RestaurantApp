@@ -15,7 +15,7 @@ export default function OrdersCard(props: orderIdProps){
             try {
                 const response = await fetch(`/api/orders/${props.userId}`);
                 const data = await response.json();
-                console.log(data.orders);
+                // console.log(data.orders);
                 setOrders(data.orders);
                 setLoading(false);
             }
