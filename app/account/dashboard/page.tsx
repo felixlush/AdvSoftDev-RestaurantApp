@@ -1,58 +1,47 @@
-import React from 'react';
+'use client'
+import React, { useEffect, useState } from 'react';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 import AccountCard from '@/app/ui/Account/Dashboard/AccountCard';
 import OrdersCard from '@/app/ui/Account/Dashboard/OrdersCard';
-import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
+import { redirect, useRouter } from 'next/navigation';
+import { User } from '@/app/lib/definitions';
+import { Bars } from 'react-loading-icons'
 
-async function fetchUserAndOrders(token: string) {
-    const userRes = await fetch(`http://localhost:3000/api/auth/verify`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token }),
-    });
+export default function DashboardPage() {
+    const [userId, setUserId] = useState<number | null>(null)
+    const router = useRouter();
 
-    if (!userRes.ok) {
-        console.log("user response not okay!")
-        return null;
+    useEffect(() => {
+        const fetchUserSession = async () => {
+                const response = await fetch('/api/auth/verify');
+                const data = await response.json();
+                if (response.ok && data) {
+                    console.log(data);
+                    setUserId(data.user.id);
+                } else {
+                    console.log("Log in failed")
+                    setUserId(null);
+                    router.push("/account/login")
+                }      
+        };
+        fetchUserSession();
+    }, []);
+
+    if (!userId) {
+        return <div><Bars/></div>; 
     }
-
-    const { user } = await userRes.json();
-
-
-
-    return { user };
-}
-
-export default async function DashboardPage() {
-    // Get the cookies from the request
-    const cookieStore = cookies();
-    const token = cookieStore.get('auth')?.value; // Get the 'auth' token from cookies
-
-    if (!token || token == " ") {
-        // Redirect to login if there's no token
-        console.log("No Token")
-        redirect('/account/login');
-    }
-
-    const result = await fetchUserAndOrders(token);
-
-    if (!result) {
-        // Redirect to login page if the user is not authenticated
-        console.log("No SQL Result")
-        redirect('/account/login');
-    }
-
-    const { user } = result;
 
     return (
+        
         <section>
             <Header />
-            <AccountCard user={user} />
-            <OrdersCard userId={user.id || ""}/>
+            {userId !== null &&
+            <div>
+                <AccountCard userId={userId} />
+                <OrdersCard userId={userId} />
+            </div>
+            }
             <Footer />
         </section>
     );

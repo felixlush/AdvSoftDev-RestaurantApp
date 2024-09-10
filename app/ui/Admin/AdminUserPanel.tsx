@@ -55,9 +55,9 @@ const AdminUserPanel = () => {
                 <div className='border rounded-lg p-4 shadow hover:shadow-lg transition w-full'>
                     <h1 className='font-bold tracking-wide text-xl p-5'>User Admin</h1>
                     <UserSearch onSearch={handleSearch}/>
-                    <div className='mt-10 mb-4 border-gray-400'>
+                    <div className='mt-10 mb-4 border-gray-400 overflow-x-auto'>
                         {users.length > 0 ? (
-                            <table className='min-w-full divide-y divide-gray-200 '>
+                            <table className='divide-y divide-gray-200 sm:justify-center ml-4 sm:ml-0'>
                                 <thead>
                                     <tr>
                                         <th className='px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase '>Name</th>
@@ -66,7 +66,7 @@ const AdminUserPanel = () => {
                                         <th className='px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase '>Type</th>
                                     </tr>
                                 </thead>
-                                <tbody className='divide-y divide-gray-200'>
+                                <tbody className='divide-y divide-gray-200 sm:justify-center ml-4 sm:ml-0'>
                                     {users.map(user => (
                                         <tr key={user.id} className='p-2 border-b justify-evenly hover:bg-gray-100 '>
                                             <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800'>{user.name}</td>
@@ -91,7 +91,7 @@ const AdminUserPanel = () => {
                             <p>No Users Found</p>
                         )} 
                     </div>
-                    <button className='rounded-md p-2 bg-green-700 text-white'>Add New User</button>
+                    <button className='rounded-md p-2 bg-green-700 text-white ml-4'>Add New User</button>
                 </div>
             </div>
 

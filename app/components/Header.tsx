@@ -1,5 +1,4 @@
 'use client'
-
 import React, { useState, useEffect } from 'react';
 import logo from "@/public/logoNew.webp"
 import Image from "next/image"
@@ -8,6 +7,7 @@ import NavLink from "@/app/ui/Nav/NavLink"
 import Cart from './Cart';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Bars } from 'react-loading-icons'
 
 export default function Header() {
 
@@ -40,7 +40,7 @@ export default function Header() {
         };
 
         fetchUserSession();
-    }, []);  // Empty dependency array means it runs once after the initial render
+    }, []);
 
     const handleLogout = async () => {
         await fetch('/api/auth/logout', {
@@ -65,13 +65,13 @@ export default function Header() {
     }
 
     if (loading) {
-        return null; // or a loading spinner
+        return <Bars/>; 
     }
 
     return (
-        <nav className="flex gap-5 justify-between bg-white sticky top-0 w-full z-40">
+        <nav className="container mx-auto flex flex-col md:flex-row items-center justify-between">
             <Image
-                className="mr auto flex"
+                className="mr auto flex sm:flex-col"
                 src={logo}
                 alt="Restaurant Logo"
                 width={120}
@@ -110,7 +110,7 @@ export default function Header() {
                     />
                 }
             </div>
-            <div className='flex self-center gap-5 mr-6'>
+            <div className='flex self-center gap-5 mr-6 sm:mt-5'>
                 <Link href={"/account/dashboard"}><CiUser /></Link>
                 <button onClick={handleCartClick}><CiShoppingCart /></button>
                 {loggedIn && <button onClick={handleLogout}><CiLogout /></button>}

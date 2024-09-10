@@ -3,7 +3,7 @@ import { Order } from "@/app/lib/definitions";
 import React, { useEffect, useState } from "react";
 
 interface orderIdProps{
-    userId: string
+    userId: number
 }
 
 export default function OrdersCard(props: orderIdProps){
@@ -33,7 +33,7 @@ export default function OrdersCard(props: orderIdProps){
 
     return(
         <div className="flex justify-center p-10">
-            <div className="border rounded-lg p-4 shadow hover:shadow-lg transition w-full">
+            <div className="border rounded-lg p-4 shadow hover:shadow-lg transition w-full overflow-x-auto">
             <h1 className="font-semibold p-5 tracking-widest">My Orders</h1>
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead>
