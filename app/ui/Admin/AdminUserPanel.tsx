@@ -55,9 +55,9 @@ const AdminUserPanel = () => {
                 <div className='border rounded-lg p-4 shadow hover:shadow-lg transition w-full'>
                     <h1 className='font-bold tracking-wide text-xl p-5'>User Admin</h1>
                     <UserSearch onSearch={handleSearch}/>
-                    <div className='mt-10 mb-4 border-gray-400 overflow-x-auto'>
+                    <div className='mt-10 mb-4 border-gray-400 sm:overflow-x-auto lg:justify-evenly justify-center'>
                         {users.length > 0 ? (
-                            <table className='divide-y divide-gray-200 sm:justify-center ml-4 sm:ml-0'>
+                            <table className='divide-y divide-gray-200  ml-4 sm:ml-0 w-full'>
                                 <thead>
                                     <tr>
                                         <th className='px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase '>Name</th>
@@ -66,7 +66,7 @@ const AdminUserPanel = () => {
                                         <th className='px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase '>Type</th>
                                     </tr>
                                 </thead>
-                                <tbody className='divide-y divide-gray-200 sm:justify-center ml-4 sm:ml-0'>
+                                <tbody className='divide-y divide-gray-200 ml-4'>
                                     {users.map(user => (
                                         <tr key={user.id} className='p-2 border-b justify-evenly hover:bg-gray-100 '>
                                             <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800'>{user.name}</td>
