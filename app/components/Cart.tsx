@@ -21,7 +21,7 @@ export default function Cart(props: {cartOpen: boolean}){
     const productOrders: ProductOrder[] = [
         {
             product: {
-                name: "Taco",
+                name: "Product name : Taco",
                 price: 5.99,
                 id: 1,
                 image: "/public/tacoIcon.jpg"
