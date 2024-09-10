@@ -18,10 +18,10 @@ export default function Footer(){
             </div>
             <div className='flex-row'>
                 <h1 className='font-bold mb-3'>Useful Links</h1>
-                <p>Home</p>
+                <p>My Home</p>
                 <p>My account</p>
                 <p>About us</p>
-                <p>FAQ</p>
+                <p>FAQ</p>cs
             </div>
             <div className='flex-row'>
                 <h1 className='font-bold mb-3'>Locations</h1>
