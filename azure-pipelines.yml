@@ -28,6 +28,9 @@ steps:
   displayName: 'Build Next.js app'
 
 - script: |
+      
+
+- script: |
     mkdir build_output
     cp -R .next build_output/
     cp -R public build_output/
@@ -43,3 +46,21 @@ steps:
     pathtoPublish: '$(Build.SourcesDirectory)/build_output'
     artifactName: 'nextjs-build'
     publishLocation: 'Container'
+
+# - task: PublishTestResults@2
+#   inputs:
+#     testResultFile: '**/test-results.xml'
+#     testRunTitle: 'Jest unit tests'
+#   condition: succededOrFailed()
+
+- task: Npm@1
+  displayName: npm run test
+  inputs:
+    command: 'custom'
+    workingDir: 'src/client-app'
+    customCommand: 'run test:ci'
+
+- task: PublishTestResults@2
+  displayName: 'Publish test results'
+  inputs:
+    testResultsFiles: '**/junit.xml'

@@ -99,8 +99,8 @@ const AdminUserPanel = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
                         <div className='flex'>
-                        <h2 className="text-2xl font-bold mb-4 mr-auto">Edit User</h2>
-                        <p className='text-gray-400'>User ID: {selectedUser.id}</p>
+                            <h2 className="text-2xl font-bold mb-4 mr-auto">Edit User</h2>
+                            <p className='text-gray-400'>User ID: {selectedUser.id}</p>
                         </div>
                         <form onSubmit={updateUser}>
                             <div className="mb-4">

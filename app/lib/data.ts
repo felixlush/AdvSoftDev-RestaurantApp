@@ -131,7 +131,7 @@ export async function getUser(email: string): Promise<User | undefined> {
         return user.rows[0];
     } catch (error) {
         console.error('Failed to fetch user:', error);
-        throw new Error('Failed to fetch user.');
+        // throw new Error('Failed to fetch user.');
     }
 }
 
@@ -141,7 +141,7 @@ export async function getUserSearch(search: string): Promise<User[] | undefined>
         return users.rows || [];
     } catch (error) {
         console.error('Failed to fetch user:', error);
-        throw new Error('Failed to fetch user.');
+        // throw new Error('Failed to fetch user.');
     }
 }
 
@@ -151,7 +151,7 @@ export async function getUserById(id: string): Promise<User | undefined> {
         return user.rows[0];
     } catch (error) {
         console.error('Failed to fetch user:', error);
-        throw new Error('Failed to fetch user.');
+        // throw new Error('Failed to fetch user.');
     }
 }
 
@@ -198,6 +198,6 @@ export async function getOrderItemsByID(order_id: string): Promise<OrderItem[] |
         return orderItems.rows;
     } catch (error){
         console.error('Failed to fetch order details:', error);
-        throw new Error('Failed to fetch order details.');
+        // throw new Error('Failed to fetch order details.');
     }
 }
