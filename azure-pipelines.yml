@@ -61,4 +61,4 @@ steps:
   displayName: 'Publish test results'
   inputs:
     testResultsFiles: '**/junit.xml'
-  condition: succededOrFailed()
+  condition: succeededOrFailed()
