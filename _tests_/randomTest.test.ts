@@ -15,13 +15,13 @@ test('get Order Item by ID', () => {
     expect(orderItem).not.toBe(null)
 })
 
-test('get user by empty string', () => {
-    let users = getUserSearch("");
-    expect(users).toBe(null);
+test('get user by empty string', async () => {
+    let users = await getUserSearch('');
+    expect(users.length).toBeGreaterThan(0);
 
-    users = getUserSearch("felix");
-    expect(users).not.toBe(null)
-})
+    users = await getUserSearch('felix');
+    expect(users.length).not.toBeGreaterThan(2);
+});
 
 
 
