@@ -5,9 +5,11 @@ module.exports = {
         '^.+\\.ts?$': 'ts-jest',
     },
     moduleFileExtensions: ['ts', 'js'],
+    setupFiles: ['dotenv/config'],
+    globals: {
+        'ts-jest': {
+            tsconfig: 'tsconfig.json',
+        },
+    },
 };
-module.exports = {
-    setupFiles: ['./jest.setup.js'],
-    preset: 'ts-jest',
-    testEnvironment: 'node',
-};
+

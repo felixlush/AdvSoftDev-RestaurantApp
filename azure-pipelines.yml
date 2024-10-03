@@ -9,6 +9,9 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  - group: DatabaseCredentials
+
 steps:
 - task: UseNode@1
   inputs:
