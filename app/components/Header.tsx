@@ -60,7 +60,7 @@ export default function Header() {
 
     function handleCartClick() {
         setCartOpen(prevCartOpen => !prevCartOpen);
-        // console.log("cart open is " + cartOpen);
+        // console.log("Cart button clicked")
     }
 
     if (loading) {
@@ -114,7 +114,7 @@ export default function Header() {
                 <button onClick={handleCartClick}><CiShoppingCart /></button>
                 {loggedIn && <button onClick={handleLogout}><CiLogout /></button>}
             </div>
-            {cartOpen && <Cart cartOpen={cartOpen} />}
+            {cartOpen && <Cart cartOpen={cartOpen} closeCart={handleCartClick} />}
         </nav>
     );
 };

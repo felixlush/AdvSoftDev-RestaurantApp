@@ -39,13 +39,18 @@ export type User = {
     type: string
 }
 
-export type Paymemt = {
+export type Payment = {
     payment_id: number,
     order_id: number,
     payment_method: string,
     payment_amount: string,
     payment_status: string,
     payment_date: string
+}
+
+export type CartItem = {
+    product: MenuItem;
+    quantity: number;
 }
 
 

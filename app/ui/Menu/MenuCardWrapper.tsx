@@ -2,9 +2,12 @@
 import { MenuItem } from '@/app/lib/definitions';
 import React, { useEffect, useState } from 'react'
 import MenuSearch from '../Menu/MenuSearch';
+import { useCart } from '@/app/context/CartContext';
+import { FaPlus, FaMinus } from "react-icons/fa6";
 
 const MenuPanel = () => {
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+    const { addToCart } = useCart();
 
     const handleSearch = async (term: string) => {
         const response = await fetch(`/api/menu?search=${term}`);
@@ -16,6 +19,10 @@ const MenuPanel = () => {
     useEffect(() => {
         handleSearch('');  // Fetch all menu items initially
     }, []);
+
+    const handleAddToCart = (item: MenuItem) => {
+        addToCart(item, 1);
+    };
 
     return (
         <section>
@@ -32,7 +39,9 @@ const MenuPanel = () => {
                             
                             <div className='flex'>
                                 <p className='text-green-600 font-semibold mr-auto'>${item.price}</p>
-                                <button className='justify-self-end bg-green-700 text-white rounded-md p-2'>Add To Cart</button> 
+                                <div className='flex space-x-3'>
+                                    <button className='justify-self-end bg-green-700 text-white rounded-md p-2' onClick={() => handleAddToCart(item)}>Add To Cart</button> 
+                                </div>
                             </div>
                         </div>
                     ))

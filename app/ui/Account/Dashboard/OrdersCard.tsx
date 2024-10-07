@@ -63,7 +63,7 @@ export default function OrdersCard(props: orderIdProps){
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                            {orders.length > 0 ? (orders.map(order => (
+                            {orders && orders.length > 0 ? (orders.map(order => (
                                 <tr key={order.order_id} className='p-2 border-b justify-evenly hover:bg-gray-100'>
                                     <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800'>{order.order_id}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{order.created_at.split("T", 1)}</td>
