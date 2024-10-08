@@ -6,7 +6,7 @@ export async function POST(req: Request){
     try{
         const formData = await req.json();
 
-        console.log(formData)
+        // console.log(formData)
 
         if (!formData.password) {
             throw new Error('Password is required');

@@ -4,6 +4,7 @@ import Header from './components/Header'
 import Hero from '@/app/components/Hero'
 import Categories from './components/Categories'
 import Footer from './components/Footer'
+import MenuPanel from './ui/Menu/MenuCardWrapper'
 
 export default function Home() {
 
@@ -13,6 +14,7 @@ export default function Home() {
       <Header />
       <Hero />
       <Categories />
+      <MenuPanel />
       <Footer />
     </main>
   )

@@ -25,11 +25,14 @@ export default function LoginForm(){
 
 
             if (res.ok) {
+                console.log("Response okay -> about to change to dashboard");
                 router.push('/account/dashboard');
+                console.log("Router push was called");
             } else {
                 console.log(res.json)
                 setError('Email & Password are not in our system')
             }
+
         } catch (error) {
             setError('Failed to connect. Please try again')
         } finally {
@@ -66,16 +69,18 @@ export default function LoginForm(){
                     <button className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600" type="submit" disabled={isLoading}>{isLoading ? 'Loading...' : 'Login'}</button>
                     {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
                 </form>
-                <p className="mt-10 text-center text-sm text-gray-500 gap-3">
-                    Not A Member?
+                <div className="flex flex-col items-center justify-center self-center mt-10">
+                    <p className="text-sm text-center text-gray-500 mb-3">
+                        Not A Member?
+                    </p>
                     <button 
-                        type="button" 
-                        className="font-semibold leading-6 text-green-600 hover:text-green-700"
-                        onClick={() => router.push('/account/createAccount')}
-                    >
-                        Create An Account
+                            type="button" 
+                            className="font-semibold text-green-600 hover:text-green-700 "
+                            onClick={() => router.push('/account/createAccount')}
+                        >
+                            Create An Account
                     </button>
-                </p>
+                </div>
             </div>
         </div>
     )
