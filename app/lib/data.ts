@@ -1,6 +1,6 @@
 'use server'
 import { sql } from '@vercel/postgres'
-import { User, MenuItem, Order, OrderItem } from '@/app/lib/definitions'
+import { User, MenuItem, Order, OrderItem, PaymentMethod } from '@/app/lib/definitions'
 import bcrypt from 'bcrypt'
 import { NextResponse } from 'next/server'
 
@@ -26,6 +26,39 @@ export async function createUser(email: string, password: string, address: strin
         throw new Error('Failed to create user.');
     }
 
+}
+
+export async function getPaymentMethodByUserID(userId: string): Promise<PaymentMethod[]> {
+    try {
+        const result = await sql<PaymentMethod>`SELECT * from PaymentMethods where user_id = ${userId}`
+        return result.rows;
+    } catch(error) {
+        console.error('Failed to fetch payment methods:', error);
+        throw new Error('Failed to fetch payment methods.');
+    }
+}
+
+export async function updatePaymentMethod(paymentMethod: PaymentMethod){
+    try {
+        const result = await sql`UPDATE PaymentMethods
+            SET 
+                method_name = ${paymentMethod.method_name},
+                user_id = ${paymentMethod.user_id},
+                card_holder_name = ${paymentMethod.card_holder_name},,
+                card_number = ${paymentMethod.card_number},
+                expir_date=${paymentMethod.expiry_date}
+            WHERE id = ${paymentMethod.payment_method_id}
+            RETURNING *;`;
+        
+        if (result.rowCount === 0){
+            return NextResponse.json({ error: 'Payment Method not found' }, { status: 404 });
+        }
+        
+        return NextResponse.json({ message: 'Method updated successfully', menuItem: result.rows[0] });
+    } catch(error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to update payment data.');
+    }
 }
 
 export async function updateUser(user: User){

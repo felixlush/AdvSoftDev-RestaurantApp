@@ -7,6 +7,7 @@ import OrdersCard from '@/app/ui/Account/Dashboard/OrdersCard';
 import { redirect, useRouter } from 'next/navigation';
 import { User } from '@/app/lib/definitions';
 import { Bars } from 'react-loading-icons'
+import PaymentMethodsCard from '@/app/ui/Account/Dashboard/PaymentMethodsCard';
 
 export default function DashboardPage() {
     const [userId, setUserId] = useState<number | null>(null)
@@ -40,6 +41,7 @@ export default function DashboardPage() {
             <div>
                 <AccountCard userId={userId} />
                 <OrdersCard userId={userId} />
+                <PaymentMethodsCard userId={userId}/>
             </div>
             }
             <Footer />

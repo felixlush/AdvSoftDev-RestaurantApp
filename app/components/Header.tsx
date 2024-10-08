@@ -99,6 +99,16 @@ export default function Header() {
                     href={"/locations"}
                 />
                 {
+                    loggedIn &&
+                    <NavLink
+                        title={"My Account"}
+                        subtitles={["Edit Menu", "Check Orders"]}
+                        onClick={() => handleMenuClick("dashboard")}
+                        isOpen={openMenu == "dashboard"}
+                        href={"/account/dashboard"}
+                    />
+                }
+                {
                     userType === "admin" &&
                     <NavLink
                         title={"Admin"}

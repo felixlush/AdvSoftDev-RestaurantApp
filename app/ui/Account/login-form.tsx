@@ -25,7 +25,9 @@ export default function LoginForm(){
 
 
             if (res.ok) {
+                console.log("Response okay -> about to change to dashboard");
                 router.push('/account/dashboard');
+                console.log("Router push was called");
             } else {
                 console.log(res.json)
                 setError('Email & Password are not in our system')

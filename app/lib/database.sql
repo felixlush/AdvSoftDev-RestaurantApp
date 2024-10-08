@@ -4,8 +4,8 @@ CREATE TABLE Users (
     email VARCHAR(100) UNIQUE NOT NULL,
     address VARCHAR(255) NOT NULL,
     postcode VARCHAR(10) NOT NULL,
-    password VARCHAR(255) NOT NULL,  -- Passwords should be hashed
-    type VARCHAR(50) NOT NULL,  -- e.g., 'customer', 'admin'
+    password VARCHAR(255) NOT NULL,  
+    type VARCHAR(50) NOT NULL,  
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -23,9 +23,9 @@ CREATE TABLE MenuItems (
 CREATE TABLE Orders (
     order_id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
-    order_status VARCHAR(50) NOT NULL, -- e.g., 'Pending', 'Confirmed', 'Cancelled'
+    order_status VARCHAR(50) NOT NULL,
     total_amount NUMERIC(10, 2) NOT NULL,
-    payment_status VARCHAR(50) NOT NULL, -- e.g., 'Pending', 'Paid', 'Refunded'
+    payment_status VARCHAR(50) NOT NULL,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(id)
@@ -44,9 +44,21 @@ CREATE TABLE OrderItems (
 CREATE TABLE Payments (
     payment_id SERIAL PRIMARY KEY,
     order_id INT NOT NULL,
-    payment_method VARCHAR(50) NOT NULL, -- e.g., 'Credit Card', 'PayPal', 'Cash'
+    payment_method VARCHAR(50) NOT NULL, 
     payment_amount NUMERIC(10, 2) NOT NULL,
-    payment_status VARCHAR(50) NOT NULL, -- e.g., 'Completed', 'Pending', 'Failed'
+    payment_status VARCHAR(50) NOT NULL,
     payment_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE
+);
+
+CREATE TABLE PaymentMethods (
+    payment_method_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    method_name VARCHAR(50) NOT NULL,  
+    card_number VARCHAR(20),  
+    expiry_date DATE,
+    card_holder_name VARCHAR(100),
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
 );

@@ -53,7 +53,14 @@ export type CartItem = {
     quantity: number;
 }
 
-
+export type PaymentMethod = {
+    user_id: number,
+    payment_method_id: number,
+    method_name: string,
+    card_number: number,
+    expiry_date: string,
+    card_holder_name: string,
+}
 
 
 
