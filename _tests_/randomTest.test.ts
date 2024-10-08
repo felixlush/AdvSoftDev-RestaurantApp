@@ -5,12 +5,12 @@ test('get user from database', async () => {
     await expect(getUser('jane.smith@example.com')).resolves.not.toBeNull();
 });
 
-test('get user by ID value', () => {
+test('get user by ID value', async () => {
     const user = getUser("1");
     expect(user).not.toBe(null);
 })
 
-test('get Order Item by ID', () => {
+test('get Order Item by ID', async () => {
     const orderItem = getOrderItemsByID("1");
     expect(orderItem).not.toBe(null)
 })
@@ -28,9 +28,9 @@ test('get Payment methods by userID', async () =>{
     expect(paymentMethods.length).toBeGreaterThan(0)
 })
 
-test('get all menu items', () => {
-    const menuItems = fetchAllMenuItems();
-    expect(menuItems).not.toBeGreaterThan(0);
+test('get all menu items', async () => {
+    const menuItems = await fetchAllMenuItems();
+    expect(menuItems.length).toBeGreaterThan(0);
 })
 
 
