@@ -11,6 +11,8 @@ pool:
 
 variables:
   - group: DatabaseCredentials
+  - name: System.debug
+    value: true
 
 steps:
 - task: UseNode@1
