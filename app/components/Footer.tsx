@@ -16,19 +16,19 @@ export default function Footer(){
                 />
                 <p className='italic font-light text-s'>Taco's 2 U, where we serve the most authentic mexican food in Australia</p>
             </div>
-            <div className='flex-row'>
+            {/* <div className='flex-row'>
                 <h1 className='font-bold mb-3'>Useful Links</h1>
-                <p>Home</p>
+                <p>My Home</p>
                 <p>My account</p>
                 <p>About us</p>
-                <p>FAQ</p>
+                <p>FAQ</p>cs
             </div>
             <div className='flex-row'>
                 <h1 className='font-bold mb-3'>Locations</h1>
                 <p>Docklands</p>
                 <p>Dullwich Hill</p>
                 <p>Manly</p>
-            </div>
+            </div> */}
 
         </section>
     )

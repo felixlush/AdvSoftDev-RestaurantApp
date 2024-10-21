@@ -1,5 +1,4 @@
 'use client'
-
 import React, { useState, useEffect } from 'react';
 import logo from "@/public/logoNew.webp"
 import Image from "next/image"
@@ -8,6 +7,7 @@ import NavLink from "@/app/ui/Nav/NavLink"
 import Cart from './Cart';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Bars } from 'react-loading-icons'
 
 export default function Header() {
 
@@ -23,9 +23,8 @@ export default function Header() {
                 const data = await response.json();
 
                 if (response.ok && data) {
-                    console.log(data);
                     setLoggedIn(true);
-                    setUserType(data.userType);
+                    setUserType(data.user.type);
                 } else {
                     setLoggedIn(false);
                     setUserType('');
@@ -40,7 +39,7 @@ export default function Header() {
         };
 
         fetchUserSession();
-    }, []);  // Empty dependency array means it runs once after the initial render
+    }, []);
 
     const handleLogout = async () => {
         await fetch('/api/auth/logout', {
@@ -61,17 +60,17 @@ export default function Header() {
 
     function handleCartClick() {
         setCartOpen(prevCartOpen => !prevCartOpen);
-        console.log("cart open is " + cartOpen);
+        // console.log("Cart button clicked")
     }
 
     if (loading) {
-        return null; // or a loading spinner
+        return <Bars />;
     }
 
     return (
-        <nav className="flex gap-5 justify-between bg-white sticky top-0 w-full z-40">
+        <nav className="container mx-auto flex flex-col md:flex-row items-center justify-between">
             <Image
-                className="mr auto flex"
+                className="mr auto flex sm:flex-col"
                 src={logo}
                 alt="Restaurant Logo"
                 width={120}
@@ -93,29 +92,39 @@ export default function Header() {
                     href={"/menu"}
                 />
                 <NavLink
-                    title={"Locations"}
+                    title={" Restaurant Locations"}
                     subtitles={["Find your nearest location", "All locations"]}
                     onClick={() => handleMenuClick("locations")}
                     isOpen={openMenu == "locations"}
                     href={"/locations"}
                 />
                 {
-                    userType === "customer" && 
+                    loggedIn &&
                     <NavLink
-                    title={"Admin"}
-                    subtitles={["Edit Menu", "Check Orders"]}
-                    onClick={() => handleMenuClick("admin")}
-                    isOpen={openMenu == "admin"}
-                    href={"/admin"}
+                        title={"My Account"}
+                        subtitles={["Edit Menu", "Check Orders"]}
+                        onClick={() => handleMenuClick("dashboard")}
+                        isOpen={openMenu == "dashboard"}
+                        href={"/account/dashboard"}
+                    />
+                }
+                {
+                    userType === "admin" &&
+                    <NavLink
+                        title={"Admin"}
+                        subtitles={["Edit Menu", "Check Orders"]}
+                        onClick={() => handleMenuClick("admin")}
+                        isOpen={openMenu == "admin"}
+                        href={"/admin"}
                     />
                 }
             </div>
-            <div className='flex self-center gap-5 mr-6'>
+            <div className='flex self-center gap-5 mr-6 sm:mt-5'>
                 <Link href={"/account/dashboard"}><CiUser /></Link>
                 <button onClick={handleCartClick}><CiShoppingCart /></button>
                 {loggedIn && <button onClick={handleLogout}><CiLogout /></button>}
             </div>
-            {cartOpen && <Cart cartOpen={cartOpen} />}
+            {cartOpen && <Cart cartOpen={cartOpen} closeCart={handleCartClick} />}
         </nav>
     );
 };

@@ -2,9 +2,10 @@ export type MenuItem = {
     item_id: number,
     item_name: string,
     description: string,
-    price: number,
+    price: string,
     category: string,
-    avaliable: boolean,
+    available: boolean,
+    image_url: string;
 }
 
 export type Order = {
@@ -12,15 +13,20 @@ export type Order = {
     user_id: number
     order_status: string
     total_amount: number
-    payment_status: string
+    payment_status: string,
+    created_at: string
 }
 
-export type OrderItems = {
-    order_item_id: number,
-    order_id: number,
-    item_id: number,
-    quantity: number,
-    price_at_purchase: number
+export interface OrderItem {
+    order_item_id: number;
+    order_id: number;
+    item_id: number;
+    quantity: number;
+    price_at_purchase: number;
+    item_name: string;
+    description: string;
+    price: number;
+    image_url: string;
 }
 
 export type User = {
@@ -33,7 +39,7 @@ export type User = {
     type: string
 }
 
-export type Paymemt = {
+export type Payment = {
     payment_id: number,
     order_id: number,
     payment_method: string,
@@ -42,7 +48,19 @@ export type Paymemt = {
     payment_date: string
 }
 
+export type CartItem = {
+    product: MenuItem;
+    quantity: number;
+}
 
+export type PaymentMethod = {
+    user_id: number,
+    payment_method_id: number,
+    method_name: string,
+    card_number: number,
+    expiry_date: string,
+    card_holder_name: string,
+}
 
 
 

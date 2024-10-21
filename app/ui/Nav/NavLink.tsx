@@ -21,7 +21,7 @@ export default function NavLink(props: {title: string, subtitles: string[], isOp
                     self-center">
                 </div>
             </button>
-            <MenuDropDown hidden={props.isOpen} subtitles={props.subtitles}/>
+            <MenuDropDown hidden={false} subtitles={props.subtitles}/>
         </div>
 
     )

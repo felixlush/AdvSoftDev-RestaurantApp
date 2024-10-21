@@ -9,52 +9,58 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  - group: DatabaseCredentials
+  - name: System.debug
+    value: true
+
 steps:
 - task: UseNode@1
   inputs:
     version: '21.5.0' 
   displayName: 'Use Node.js 21.5.0'
 
-- script: node -v
+- script: | 
+    node -v
   displayName: 'Check Node.js Version'
 
 - script: |
     npm install
-    npm run build
-  displayName: 'npm install and build'
+  displayName: 'Install dependencies'
 
-# # Add steps to publish the build artifacts
-# - task: CopyFiles@2
-#   inputs:
-#     contents: '**/dist/**'  # Adjust this path to the location of your build output
-#     targetFolder: '$(Build.ArtifactStagingDirectory)/dist'
-#   displayName: 'Copy build artifacts to staging directory'
+- script: |
+    npm run build  
+  displayName: 'Build Next.js app'
 
-# - task: PublishPipelineArtifact@1
-#   inputs:
-#     targetPath: '$(Build.ArtifactStagingDirectory)/dist'
-#     artifact: 'build'
-#   displayName: 'Publish build artifacts'
+- script: |
+      
 
-- task: CopyFiles@2
+- script: |
+    mkdir build_output
+    cp -R .next build_output/
+    cp -R public build_output/
+    cp package.json build_output/
+    cp next.config.js build_output/
+    cp package-lock.json build_output/
+    cp .env build_output/ || true  
+    cp next.config.mjs build_output/ || true  
+  displayName: 'Prepare build output for artifact'
+
+- task: PublishBuildArtifacts@1
   inputs:
-    sourceFolder: '$(Build.SourcesDirectory)'
-    contents: |
-      app/**            # Include app directory
-      api/**            # Include api directory
-      public/**         # Include public directory
-      .env              # Include environment file if needed
-      next.config.mjs   # Next.js configuration file
-      package.json      # Package file for dependencies
-      package-lock.json # Lock file for npm dependencies
-      tailwind.config.js # Tailwind CSS configuration
-      README.md         # Project documentation
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
-  displayName: 'Copy project files'
+    pathtoPublish: '$(Build.SourcesDirectory)/build_output'
+    artifactName: 'nextjs-build'
+    publishLocation: 'Container'
 
-- task: PublishPipelineArtifact@1
+- task: Npm@1
+  displayName: npm run test
   inputs:
-    artifactName: e2e-server
-    targetPath: '$(Build.ArtifactStagingDirectory)'
-    publishLocation: 'pipeline'
-  displayName: 'Publish npm artifact'  
+    command: 'custom'
+    workingDir: './'
+    customCommand: 'run test:ci'
+
+- task: PublishTestResults@2
+  displayName: 'Publish test results'
+  inputs:
+    testResultsFiles: '**/junit.xml'
+  condition: succeededOrFailed()
