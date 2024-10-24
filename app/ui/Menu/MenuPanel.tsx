@@ -1,9 +1,10 @@
 'use client'
 import { MenuItem } from '@/app/lib/definitions';
 import React, { useEffect, useState } from 'react'
-import MenuSearch from '../Menu/MenuSearch';
+import MenuSearch from './MenuSearch';
 import { useCart } from '@/app/context/CartContext';
 import { FaPlus, FaMinus, FaCartShopping } from "react-icons/fa6";
+import Categories from '@/app/components/Categories';
 
 const MenuPanel = () => {
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -29,6 +30,7 @@ const MenuPanel = () => {
 
     return (
         <section>
+            <div><Categories handleFilter={handleSearch}/></div>
             <div><MenuSearch onSearch={handleSearch}/></div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
                 {menuItems.length > 0 ? (

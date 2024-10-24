@@ -9,6 +9,7 @@ interface UserSearchProps {
 const UserSearch: React.FC<UserSearchProps> = ({ onSearch }) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [customerBool, setCustomerBool] = useState<boolean>(true);
+    const [adminBool, setAdminBool] = useState<boolean>(true);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const term = e.target.value;
@@ -16,10 +17,13 @@ const UserSearch: React.FC<UserSearchProps> = ({ onSearch }) => {
         onSearch(term);
     }
 
-    const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const bool = e.target.value;
+    // const handleAdminCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setSearchTerm(searchTerm + " admin");
+    // }
 
-    }
+    // const handleCustomerCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setSearchTerm(searchTerm + " admin");
+    // }
 
     return (
         <div className="flex justify-center my-4 md:flex-row">
@@ -30,12 +34,12 @@ const UserSearch: React.FC<UserSearchProps> = ({ onSearch }) => {
             onChange={handleInputChange}
             className="border rounded-l-md p-2 w-1/2 mr-10 "
         />
-        <div className='mr-5'>
+        {/* <div className='mr-5'>
             <input
                 type="checkbox"
                 id="admin"
                 name="admin"
-                onChange={handleCheckBoxChange}
+                onChange={handleAdminCheckBoxChange}
             />
             <label className='px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500' htmlFor="admin">Admin</label>
         </div>
@@ -44,10 +48,10 @@ const UserSearch: React.FC<UserSearchProps> = ({ onSearch }) => {
                 type="checkbox"
                 id="customer"
                 name="customer"
-                onChange={handleCheckBoxChange}
+                onChange={handleCustomerCheckBoxChange}
             />
             <label className='px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500' htmlFor="customer">Customer</label>
-        </div>
+        </div> */}
         </div>
     );
 }

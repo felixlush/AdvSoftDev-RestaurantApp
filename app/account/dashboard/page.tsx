@@ -1,7 +1,5 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import Header from '@/app/components/Header';
-import Footer from '@/app/components/Footer';
 import AccountCard from '@/app/ui/Account/Dashboard/AccountCard';
 import OrdersCard from '@/app/ui/Account/Dashboard/OrdersCard';
 import { redirect, useRouter } from 'next/navigation';
@@ -36,7 +34,6 @@ export default function DashboardPage() {
     return (
         
         <section>
-            <Header />
             {userId !== null &&
             <div>
                 <AccountCard userId={userId} />
@@ -44,7 +41,6 @@ export default function DashboardPage() {
                 <PaymentMethodsCard userId={userId}/>
             </div>
             }
-            <Footer />
         </section>
     );
 }

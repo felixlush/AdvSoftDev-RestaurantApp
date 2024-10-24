@@ -311,7 +311,8 @@ export async function updateMenuItem(item: MenuItem){
                 description = ${item.description},
                 price = ${item.price},
                 available = ${item.available},
-                image_url = ${item.image_url}
+                image_url = ${item.image_url},
+                category = ${item.category.toLowerCase()}
             WHERE item_id = ${item.item_id}
             RETURNING *;`;
         
@@ -328,7 +329,7 @@ export async function updateMenuItem(item: MenuItem){
 
 export async function fetchAllMenuItems(){
     try{
-        const data = await sql<MenuItem>`SELECT * FROM menuItems`;
+        const data = await sql<MenuItem>`SELECT * FROM menuItems ORDER BY item_id`;
         return data.rows;
     } catch (error) {
         console.error('Database Error:', error);
@@ -338,7 +339,7 @@ export async function fetchAllMenuItems(){
 
 export async function fetchMenuItems(search: string){
     try{
-        const data = await sql<MenuItem>`SELECT * FROM menuItems WHERE item_name ILIKE ${'%' + search + '%'} or category ILIKE ${'%' + search + '%'}`;
+        const data = await sql<MenuItem>`SELECT * FROM menuItems WHERE item_name ILIKE ${'%' + search + '%'} or category ILIKE ${'%' + search + '%'} ORDER BY item_id`;
         return data.rows;
     } catch (error) {
         console.error('Database Error:', error);
@@ -358,7 +359,7 @@ export async function getUser(email: string): Promise<User | undefined> {
 
 export async function getUserSearch(search: string): Promise<User[]> {
     try {
-        const users = await sql<User>`SELECT id, name, email, type, address FROM users WHERE name ILIKE ${'%' + search + '%'} OR email ILIKE ${'%' + search + '%'}`
+        const users = await sql<User>`SELECT id, name, email, type, address FROM users WHERE name ILIKE ${'%' + search + '%'} OR email ILIKE ${'%' + search + '%'} OR type ILIKE ${'%' + search + '%'}`
         return users.rows || [];
     } catch (error) {
         console.error('Failed to fetch user:', error);

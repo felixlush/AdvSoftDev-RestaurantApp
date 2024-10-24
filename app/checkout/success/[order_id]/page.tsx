@@ -1,7 +1,5 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import Header from '../../../components/Header';
-import Footer from '../../../components/Footer';
 import { getOrderItemsByID, getOrderByID } from '@/app/lib/data';
 import { Order, OrderItem } from '@/app/lib/definitions';
 import OrderViewPanel from '@/app/ui/Account/Dashboard/OrderViewPanel';
@@ -55,7 +53,6 @@ const page = ({ params }: OrderSuccessProps) => {
 
   return (
     <section>
-      <Header />
       <div className="flex justify-center p-10">
         <div className="border rounded-lg p-4 shadow hover:shadow-lg transition w-full">
           {order && (
@@ -118,7 +115,6 @@ const page = ({ params }: OrderSuccessProps) => {
           )}
         </div>
       </div>
-      <Footer />
     </section>
   );
 };
