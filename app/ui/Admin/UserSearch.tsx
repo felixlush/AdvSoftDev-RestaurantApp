@@ -22,7 +22,7 @@ const UserSearch: React.FC<UserSearchProps> = ({ onSearch }) => {
     }
 
     return (
-        <div className="flex justify-center my-4">
+        <div className="flex justify-center my-4 md:flex-row">
         <input
             type="text"
             placeholder="Search users"

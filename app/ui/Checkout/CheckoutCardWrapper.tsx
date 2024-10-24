@@ -5,26 +5,43 @@ import React, { useEffect, useState } from 'react'
 import { FiMinus, FiPlus } from 'react-icons/fi';
 import { IoMdClose } from 'react-icons/io';
 import Image from 'next/image';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import CheckoutCard from './CheckoutCard';
 import DeliveryDetails from './DeliveryDetails';
 import PaymentForm from './PaymentForm';
+import { User, PaymentMethod } from '@/app/lib/definitions'
 
 const CheckoutCardWrapper = () => {
 
-    const { cartItems, removeFromCart, updateItemQuantity, getTotal } = useCart();
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [address, setAddress] = useState('');
-    const [postcode, setPostcode] = useState('');
-    const [telephone, setTelephone] = useState('');
+    const { cartItems, removeFromCart, updateItemQuantity, getTotal, clearCart } = useCart();
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [newErrors, setNewErrors] = useState<{ [key: string]: string }>({});
-    const [cardNum, setCardNum] = useState('');
-    const [securityCode, setSecurityCode] = useState('');
-    const [cardName, setCardName] = useState('');
-    const [expiryDate, setExpiryDate] = useState('')
+    const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+    const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState<number | null>(null);
+    const router = useRouter();
+
+    const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>({
+        user_id: null,
+        payment_method_id: null,
+        method_name: "",
+        card_number: "",
+        expiry_date: "",
+        card_holder_name: "",
+        security_code: "",
+        last_four_digits: "",
+    })
+    
+    const [user, setUser] = useState<User>({
+        id: null,
+        name: "",
+        email: "",
+        address: "",
+        postcode: "",
+        type: "",
+        password: "",
+        telephone: ""
+    });
 
     const total = getTotal();
 
@@ -43,44 +60,45 @@ const CheckoutCardWrapper = () => {
     };
 
     const validate = () => {
-        if (!name.trim()) {
+        setNewErrors({})
+        if (!user.name.trim()) {
             newErrors.name = "Name is required!";
         }
 
-        if (!email.trim()) {
+        if (!user.email.trim()) {
             newErrors.email = "Email is required!";
-        } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+        } else if (!/^\S+@\S+\.\S+$/.test(user.email)) {
             errors.email = "Invalid email address";
         }
 
-        if (!address.trim()) {
+        if (!user.address.trim()) {
             newErrors.address = "Address is required!";
         }
 
-        if (!postcode.trim()) {
+        if (!user.postcode.trim()) {
             newErrors.postcode = "Postcode is required!";
         }
 
-        if (!telephone.trim()) {
-            newErrors.telephone = "Phone number is required!";
-        }
+        // if (!user.telephone.trim()) {
+        //     newErrors.telephone = "Phone number is required!";
+        // }
 
-        if (!securityCode.trim()) {
+        if (!paymentMethod.security_code.trim()) {
             newErrors.securityCode = "Security Code is required!";
         }
 
-        if (!cardNum.trim()) {
+        if (!selectedPaymentMethodId && !paymentMethod.card_number.trim()) {
             newErrors.cardNum = "Card Number is required!";
         } 
         // else if (!/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\d{3})\d{11})[\s-]*$/.test(cardNum)){
         //     newErrors.cardNum = "Invalid Card Number";
         // }
 
-        if (!expiryDate.trim()) {
+        if (!selectedPaymentMethodId && !paymentMethod.expiry_date.trim()) {
             newErrors.expiryDate = "Expiry Date is required!";
         }
 
-        if (!cardName.trim()) {
+        if (!selectedPaymentMethodId && !paymentMethod.card_holder_name.trim()) {
             newErrors.cardName = "Card Name is required!";
         }
 
@@ -89,28 +107,33 @@ const CheckoutCardWrapper = () => {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
 
+        e.preventDefault();
         if (!validate()) {
             return;
         }
-
+        const data = {user: user, paymentMethod: paymentMethod, cartItems: cartItems, totalAmount: total};
+        console.log(data)
         try {
-            const res = await fetch('/api/order/createOrder', {
+            const res = await fetch('/api/orders/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    name,
-                    address,
-                    postcode,
-                    telephone,
+                    user: user,
+                    paymentMethod: paymentMethod,
+                    cartItems: cartItems,
+                    totalAmount: total
                 })
             });
 
             if (res.ok) {
-                router.push('/login');
+                const responseData = await res.json();
+                console.log(responseData);
+                clearCart();
+                const order_id = responseData.orderId;
+                router.push(`/checkout/success/${order_id}`);
             } else {
                 console.log(await res.json());
             }
@@ -124,19 +147,43 @@ const CheckoutCardWrapper = () => {
             try {
                 const response = await fetch('/api/auth/verify');
                 const data = await response.json();
-
+    
                 if (response.ok && data) {
-                    setAddress(data.user.address);
-                    setName(data.user.name);
-                    setEmail(data.user.email);
-                    setPostcode(data.user.postcode);
+                    setUser(data.user);
                 }
             } catch (error) {
                 console.error('Error fetching session:', error);
             }
         };
+    
         fetchUserSession();
     }, []);
+
+
+    useEffect(() => {
+        const fetchPaymentMethods = async () => {
+            if (user.id === 0 || user.id == undefined) return; 
+    
+            try {
+                const response = await fetch(`/api/users/${user.id}/paymentMethods`);
+                const data = await response.json();
+                // console.log(data.paymentMethods);
+                setPaymentMethods(data.paymentMethods);
+            } catch (error) {
+                console.error('Error fetching payment methods:', error);
+            }
+        };
+    
+        fetchPaymentMethods();
+    }, [user.id]);
+
+    const handlePaymentMethodChange = (methodId: number) => {
+        const selectedMethod = paymentMethods.find((method) => method.payment_method_id === methodId);
+        if (selectedMethod) {
+            setPaymentMethod(selectedMethod);
+        }
+        setSelectedPaymentMethodId(methodId);
+    };
 
     return (
         <div className="flex-col justify-center p-10">
@@ -157,29 +204,38 @@ const CheckoutCardWrapper = () => {
                             <div className="flex flex-col w-full md:w-1/2 space-y-6">
                                 <div className="mb-10">
                                     <DeliveryDetails
-                                        name={name}
-                                        setName={setName}
-                                        address={address}
-                                        setAddress={setAddress}
-                                        postcode={postcode}
-                                        setPostcode={setPostcode}
-                                        telephone={telephone}
-                                        setTelephone={setTelephone}
+                                        user={user}
+                                        setUser={setUser}
                                         errors={errors}
-                                        email={email}
-                                        setEmail={setEmail}
                                     />
                                 </div>
+                                {user.id && paymentMethods &&
+                                <div className="mb-6">
+                                    <label className="block text-sm font-medium text-gray-900">
+                                        Select Payment Method:
+                                    </label>
+                                    <select
+                                        value={selectedPaymentMethodId ?? ''}
+                                        onChange={(e) => handlePaymentMethodChange(Number(e.target.value))}
+                                        className="block w-full rounded-md border py-2 px-3 text-gray-900"
+                                    >
+                                        <option value="">-- Select Payment Method --</option>
+                                        {paymentMethods.map((method) => (
+                                            <option
+                                                key={method.payment_method_id}
+                                                value={method.payment_method_id ? method.payment_method_id: ""}
+                                            >
+                                                {method.method_name} - {method.card_holder_name} - ****{method.last_four_digits}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                }
                                 <PaymentForm 
-                                    cardName={cardName}
-                                    setCardName={setCardName}
-                                    cardNum={cardNum}
-                                    setCardNum={setCardNum}
-                                    securityCode={securityCode}
-                                    setSecurityCode={setSecurityCode}
-                                    expiryDate={expiryDate}
-                                    setExpiryDate={setExpiryDate}
+                                    paymentMethod={paymentMethod}
+                                    setPaymentMethod={setPaymentMethod}
                                     errors={errors}
+                                    hideCardNumber={!selectedPaymentMethodId}
                                 />
                             </div>
                         </div>
@@ -200,7 +256,7 @@ const CheckoutCardWrapper = () => {
                             Checkout
                     </h2>
                     <h2 className="text-xl text-gray-900 dark:text-black mb-6">
-                            No Items in cart : (
+                            No Items in cart :(
                     </h2>
                     </>
                 )}

@@ -13,8 +13,6 @@ interface cartProps{
     cartOpen: Boolean
 }
 
-
-
 export default function Cart(props: cartProps){
 
     const{cartItems, removeFromCart, updateItemQuantity, getTotal} = useCart();
@@ -42,7 +40,7 @@ export default function Cart(props: cartProps){
     };
 
     return(
-        <div className={`flex flex-col fixed left-0 top-10 z-30 bg-gray-200 py-8 md:py-16  rounded-md  h-3/4 w-1/3 shadow-2xl overflow-scroll `}>
+        <div className={`flex flex-col fixed right-0 top-10 z-30 bg-gray-200 py-8 md:py-16  rounded-md  h-3/4 w-1/3 shadow-2xl overflow-scroll `}>
             <div className=''>
                 <div className='flex justify-end px-4'>
                     <button onClick={props.closeCart}>

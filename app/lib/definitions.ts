@@ -31,16 +31,17 @@ export interface OrderItem {
 
 export type User = {
     name: string,
-    id: number,
+    id: number | null,
     email: string,
     address: string,
     postcode: string,
     password: string,
     type: string
+    telephone: string
 }
 
 export type Payment = {
-    payment_id: number,
+    payment_id: number | null,
     order_id: number,
     payment_method: string,
     payment_amount: string,
@@ -54,12 +55,14 @@ export type CartItem = {
 }
 
 export type PaymentMethod = {
-    user_id: number,
-    payment_method_id: number,
+    user_id: number | null,
+    payment_method_id: number | null,
     method_name: string,
-    card_number: number,
+    card_number: string,
     expiry_date: string,
     card_holder_name: string,
+    security_code: string,
+    last_four_digits: string
 }
 
 

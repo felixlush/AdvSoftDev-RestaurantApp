@@ -3,11 +3,12 @@ import { MenuItem } from '@/app/lib/definitions';
 import React, { useEffect, useState } from 'react'
 import MenuSearch from '../Menu/MenuSearch';
 import { useCart } from '@/app/context/CartContext';
-import { FaPlus, FaMinus } from "react-icons/fa6";
+import { FaPlus, FaMinus, FaCartShopping } from "react-icons/fa6";
 
 const MenuPanel = () => {
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const { addToCart } = useCart();
+    const [addedToCart, setAddedToCart] = useState<boolean>(false);
 
     const handleSearch = async (term: string) => {
         const response = await fetch(`/api/menu?search=${term}`);
@@ -22,6 +23,8 @@ const MenuPanel = () => {
 
     const handleAddToCart = (item: MenuItem) => {
         addToCart(item, 1);
+        setAddedToCart(true);
+        setTimeout(() => setAddedToCart(false), 3000)
     };
 
     return (
@@ -49,6 +52,13 @@ const MenuPanel = () => {
                     <p>No menu items found</p>
                 )}
             </div>
+            {/* Animated Cart Icon */}
+            <button
+                className={`fixed bottom-5 right-5 p-2 bg-green-500 rounded-full shadow-lg 
+                    transition-transform transform ${addedToCart ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}
+            >
+                <p className="text-white font-semibold">Added to cart!</p>
+            </button>
         </section>
     );
 };

@@ -1,5 +1,6 @@
-import { fetchAllMenuItems, fetchMenuItems } from "@/app/lib/data"
+import { deleteMenuItem, fetchAllMenuItems, fetchMenuItems } from "@/app/lib/data"
 import { NextResponse } from "next/server";
+import { addMenuItem } from "@/app/lib/data"
 
 export async function GET(req: Request){
     try {
@@ -22,3 +23,15 @@ export async function GET(req: Request){
         return NextResponse.json({ error: 'Internal Server Error'}, {status: 500})
     }
 }
+
+export async function POST(req: Request){
+    try{
+        const formData = await req.json();
+        const result = await addMenuItem(formData)
+        return NextResponse.json({menuItem: result}, {status: 201})
+    } catch (e) {
+        console.log("Error adding menu item: ", e)
+        return NextResponse.json({ error: 'Internal Server Error'}, {status: 500})
+    }
+}
+

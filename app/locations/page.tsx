@@ -4,37 +4,43 @@ import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 import { Loader } from '@googlemaps/js-api-loader';
 
-const Locations = () => {
-//     useEffect(() => {
-//         const apiOptions = {
-//             apiKey: process.env.GOOGLE_MAP_KEY as string
-//         };
-        
-//         const loader = new Loader(apiOptions);
-        
-//         loader.load().then(() => {
-//             console.log('Maps JS API loaded');
-//             displayMap();
-//         }).catch(err => {
-//             console.error('Error loading Google Maps', err);
-//         });
-//     }, []); 
+declare global {
+    interface Window {
+        google: any;
+    }
+}
 
-    // function displayMap() {
-    //     if (typeof google !== 'undefined') {
-    //         const mapOptions = {
-    //             center: { lat: -33.860664, lng: 151.208138 },
-    //             zoom: 14
-    //         };
-    //         const mapDiv = document.getElementById('map');
-    //         if (mapDiv) {
-    //             const map = new google.maps.Map(mapDiv, mapOptions);
-    //             return map;
-    //         }
-    //     } else {
-    //         console.error('Google Maps API is not available');
-    //     }
-    // }
+const Locations = () => {
+    useEffect(() => {
+        const apiOptions = {
+            apiKey: process.env.GOOGLE_MAP_KEY as string
+        };
+        
+        const loader = new Loader(apiOptions);
+        
+        loader.load().then(() => {
+            console.log('Maps JS API loaded');
+            displayMap();
+        }).catch(err => {
+            console.error('Error loading Google Maps', err);
+        });
+    }, []); 
+
+    function displayMap() {
+        if (typeof google !== 'undefined') {
+            const mapOptions = {
+                center: { lat: -33.860664, lng: 151.208138 },
+                zoom: 14
+            };
+            const mapDiv = document.getElementById('map');
+            if (mapDiv) {
+                const map = new google.maps.Map(mapDiv, mapOptions);
+                return map;
+            }
+        } else {
+            console.error('Google Maps API is not available');
+        }
+    }
 
     return (
         <>

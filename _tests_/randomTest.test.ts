@@ -1,7 +1,7 @@
 import { fetchAllMenuItems, getOrderItemsByID, getPaymentMethodByUserID, getUser, getUserById, getUserSearch } from "..//app/lib/data";
 import { User } from "..//app/lib/definitions";
 
-test('get user from database', async () => {
+test('get user from database', async () => { 
     await expect(getUser('jane.smith@example.com')).resolves.not.toBeNull();
 });
 

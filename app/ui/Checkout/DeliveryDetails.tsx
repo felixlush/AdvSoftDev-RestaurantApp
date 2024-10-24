@@ -1,16 +1,9 @@
 import React, { useState } from 'react'
+import { User } from '@/app/lib/definitions'
 
 interface deliveryDetailsProps{
-    email: string,
-    setEmail: (email: string) => void
-    address: string,
-    setAddress: (address: string) => void,
-    name: string,
-    setName: (name: string) => void,
-    telephone: string,
-    setTelephone: (telephone: string) => void,
-    postcode: string,
-    setPostcode: (postcode: string) => void,
+    user: User
+    setUser: (updatedUser: User) => void
     errors: any
 }
 
@@ -27,8 +20,8 @@ const DeliveryDetails = (props: deliveryDetailsProps) => {
                     Name:
                     <input
                         type="text"
-                        value={props.name}
-                        onChange={(e) => props.setName(e.target.value)}
+                        value={props.user.name}
+                        onChange={(e) => props.setUser({...props.user, name: e.target.value})}
                         required
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 p-3"
                     />
@@ -38,8 +31,8 @@ const DeliveryDetails = (props: deliveryDetailsProps) => {
                     Email:
                     <input
                         type="text"
-                        value={props.email}
-                        onChange={(e) => props.setEmail(e.target.value)}
+                        value={props.user.email}
+                        onChange={(e) => props.setUser({...props.user, email: e.target.value})}
                         required
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 p-3"
                     />
@@ -49,8 +42,8 @@ const DeliveryDetails = (props: deliveryDetailsProps) => {
                     Address:
                     <input
                         type="text"
-                        value={props.address}
-                        onChange={(e) => props.setAddress(e.target.value)}
+                        value={props.user.address}
+                        onChange={(e) => props.setUser({...props.user, address: e.target.value})}
                         required
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 p-3"
                     />
@@ -61,8 +54,8 @@ const DeliveryDetails = (props: deliveryDetailsProps) => {
                         Post Code:
                         <input
                             type="text"
-                            value={props.postcode}
-                            onChange={(e) => props.setPostcode(e.target.value)}
+                            value={props.user.postcode}
+                            onChange={(e) => props.setUser({...props.user, postcode: e.target.value})}
                             required
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 p-3"
                         />
@@ -73,8 +66,8 @@ const DeliveryDetails = (props: deliveryDetailsProps) => {
                         Phone Number:
                         <input
                             type="text"
-                            value={props.telephone}
-                            onChange={(e) => props.setTelephone(e.target.value)}
+                            value={props.user.telephone}
+                            onChange={(e) => props.setUser({...props.user, telephone: e.target.value})}
                             required
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 p-3"
                         />

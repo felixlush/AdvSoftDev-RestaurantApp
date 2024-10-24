@@ -44,7 +44,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         for (let i = 0; i < cartItems.length; ++i){
             sum += parseFloat(cartItems[i].product.price) * cartItems[i].quantity
         }
-        return sum // As $$ amount
+        return sum
     }
 
 

@@ -56,6 +56,11 @@ export default function Header() {
         setOpenMenu(prevState => (prevState === menu ? null : menu));
     }
 
+    const handleUserClick = () => {
+        let url = (loggedIn ? "/account/dashboard" : "/account/login");
+        router.push(url);
+    }
+
     const [cartOpen, setCartOpen] = useState(false);
 
     function handleCartClick() {
@@ -120,7 +125,7 @@ export default function Header() {
                 }
             </div>
             <div className='flex self-center gap-5 mr-6 sm:mt-5'>
-                <Link href={"/account/dashboard"}><CiUser /></Link>
+                <button onClick={handleUserClick}><CiUser /></button>
                 <button onClick={handleCartClick}><CiShoppingCart /></button>
                 {loggedIn && <button onClick={handleLogout}><CiLogout /></button>}
             </div>

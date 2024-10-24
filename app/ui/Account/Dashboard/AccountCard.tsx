@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import {User} from '@/app/lib/definitions'
 import { getUserById } from "@/app/lib/data";
 import { useRouter } from "next/navigation";
+import { FaEye } from "react-icons/fa";
 
 interface AccountCardProps{
     userId: number
@@ -12,9 +13,44 @@ export default function AccountCard(props: AccountCardProps){
     const [user, setUser] = useState<User | null>(null);
     const [editPanelOpen, setEditPanelOpen] = useState<boolean>(false);
     const router = useRouter()
+    const [error, setError] = useState<String>('');
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    
 
-    const updateUser = () =>{
+    const updateUser = async (e: React.FormEvent) =>{
+        e.preventDefault();
+        if (user){
+            try {
+                const response = await fetch(`/api/users/${user.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                });
 
+                if(response.ok){
+                    const updatedData = await response.json();
+                    console.log(updatedData.user)
+                    setUser(updatedData.user);
+                    closeEditPanel();
+                    router.refresh(); // Optional: Refresh the page or data
+                } else {
+                    const errorData = await response.json();
+                    setError(errorData.error || 'Failed to update user');
+                }
+            } catch (err) {
+                console.error(err);
+                setError('An unexpected error occurred');
+            }
+        } else {
+            console.log("No user found -> can't update")
+            setError('Error: No user found');
+        }
+    }
+    
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
     }
 
     const openEditPanel = (user: User) => {
@@ -23,17 +59,26 @@ export default function AccountCard(props: AccountCardProps){
 
     const closeEditPanel = () => {
         setEditPanelOpen(false);
+        setShowPassword(false);
     }
 
     useEffect(() => {
         const fetchUser = async () => {
-            const response = await fetch(`/api/users/${props.userId}`)
-            const data = await response.json();
-            // console.log(data.user)
-            setUser(data.user)
+            try {
+                const response = await fetch(`/api/users/${props.userId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user');
+                }
+                const data = await response.json();
+                setUser(data.user);
+            } catch (err) {
+                console.error(err);
+                setError('Failed to load user data');
+            }
         }
-        if (props.userId) {fetchUser()}
-    }, [props.userId])
+        if (props.userId) { fetchUser() }
+    }, [props.userId]);
+    
 
     return(
         <section>
@@ -107,19 +152,37 @@ export default function AccountCard(props: AccountCardProps){
                                     className="border rounded-lg p-2 w-full"
                                 />
                             </div>
-                            <div className="mb-4">
+                            {/* <div className="mb-4 relative"> // Cant change pasword here
                                 <label className="block text-gray-700">Password</label>
                                 <input
-                                    type='password'
+                                    type={showPassword ? "text" : "password"}
                                     value={user.password}
                                     onChange={(e) => setUser({ ...user, password: e.target.value })}
-                                    className="border rounded-lg p-2 w-full"
+                                    className="border rounded-lg p-2 w-full pr-10" // 'pr-10' to make space for the icon
+                                    required
                                 />
-                            </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute inset-y-0 mt-5 right-0 pr-3 flex items-center text-gray-500"
+                                    aria-label={showPassword ? "Hide password" : "Show password"} // Accessibility
+                                >
+                                    {showPassword ? (
+                                        <FaEye className="h-5 w-5" />
+                                    ) : (
+                                        <FaEye className="h-5 w-5" />
+                                    )}
+                                </button>
+                            </div> */}
                             <div className="flex justify-end space-x-4">
                                 <button type="button" onClick={closeEditPanel} className="bg-gray-500 text-white px-4 py-2 rounded-lg">Cancel</button>
                                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg">Save Changes</button>
                             </div>
+                            {error && 
+                            <div>
+                                <p className="mt-2 text-sm text-red-600">{error}</p>
+                            </div>
+                            }
                         </form>
                     </div>
                 </div>

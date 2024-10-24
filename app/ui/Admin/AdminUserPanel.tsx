@@ -52,7 +52,7 @@ const AdminUserPanel = () => {
     return (
         <section>
             <div className='flex justify-center p-10'>
-                <div className='border rounded-lg p-4 shadow hover:shadow-lg transition w-full'>
+                <div className='border rounded-lg p-4 shadow hover:shadow-lg transition w-full overflow-auto'>
                     <h1 className='font-bold tracking-wide text-xl p-5'>User Admin</h1>
                     <UserSearch onSearch={handleSearch}/>
                     <div className='mt-10 mb-4 border-gray-400 sm:overflow-x-auto lg:justify-evenly justify-center'>

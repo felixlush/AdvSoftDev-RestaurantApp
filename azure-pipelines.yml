@@ -24,6 +24,17 @@ steps:
     node -v
   displayName: 'Check Node.js Version'
 
+# - task: Bash@3
+#     displayName: 'Create .env file'
+#     inputs:
+#       targetType: 'inline'
+#       script: |
+#         echo "Creating .env file from pipeline variables..."
+#         echo "POSTGRES_URL=${POSTGRES_URL}" >> .env
+#         echo "POSTGRES_PRISMA_URL=${POSTGRES_PRISMA_URL}" >> .env
+#         echo "POSTGRES_URL_NO_SSL=${POSTGRES_URL_NO_SSL}" >> .env
+#         # Add other environment variables as needed
+
 - script: |
     npm install
   displayName: 'Install dependencies'
@@ -31,9 +42,6 @@ steps:
 - script: |
     npm run build  
   displayName: 'Build Next.js app'
-
-- script: |
-      
 
 - script: |
     mkdir build_output
@@ -64,3 +72,9 @@ steps:
   inputs:
     testResultsFiles: '**/junit.xml'
   condition: succeededOrFailed()
+
+# - task: AzureWebApp@1
+#   inputs:
+#     azureSubscription: '<your-azure-service-connection>'
+#     appName: 'nextjs-web-app'
+#     package: '$(Build.ArtifactStagingDirectory)/nextjs-build'

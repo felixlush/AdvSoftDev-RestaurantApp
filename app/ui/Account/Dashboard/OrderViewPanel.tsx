@@ -20,8 +20,9 @@ export default function OrderViewPanel(props: OrderViewProps) {
 
     useEffect(() => {
         fetchOrderDetails()
+        console.log("Fetching order items")
         console.log(orderItems)
-    }, [])
+    }, [props.order.order_id])
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

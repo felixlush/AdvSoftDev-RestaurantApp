@@ -6,8 +6,8 @@ import { CartProvider } from '@/app/context/CartContext';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Restaurant',
-  description: 'online menu for restaurant',
+  title: 'Tacos 2 u',
+  description: 'website for tacos 2 u',
 }
 
 export default function RootLayout({
