@@ -15,7 +15,7 @@ export async function PUT(req: Request){
 
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
 
-    console.log(`item ID in menu/id/route.ts ${params.id}`)
+    // console.log(`item ID in menu/id/route.ts ${params.id}`)
     const item_id = parseInt(params.id);
 
     // if (isNaN(item_id)) {

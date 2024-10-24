@@ -33,7 +33,7 @@ const MenuSearch: React.FC<MenuSearchProps> = ({ onSearch }) => {
             className="border rounded-l-md p-2 w-1/2 mr-10 "
         />
         <div>
-            <button className='border-slate-600 border-solid bg-green-600 rounded-md text-white font-semibold p-2' onClick={clearSearch}>
+            <button className='border-slate-600 border-solid bg-green-600 rounded-md text-white font-semibold p-2 hover:bg-green-500' onClick={clearSearch}>
                 Clear Filters
             </button>
         </div>

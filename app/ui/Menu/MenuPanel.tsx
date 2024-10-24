@@ -45,7 +45,7 @@ const MenuPanel = () => {
                             <div className='flex'>
                                 <p className='text-green-600 font-semibold mr-auto'>${item.price}</p>
                                 <div className='flex space-x-3'>
-                                    <button className='justify-self-end bg-green-700 text-white rounded-md p-2' onClick={() => handleAddToCart(item)}>Add To Cart</button> 
+                                    <button className='justify-self-end bg-green-700 text-white rounded-md p-2 hover:bg-green-600' onClick={() => handleAddToCart(item)}>Add to cart</button> 
                                 </div>
                             </div>
                         </div>

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import UserSearch from '@/app/ui/Admin/UserSearch'
 import { User } from '@/app/lib/definitions';
+import { fetchAllUsers } from '@/app/lib/data';
 
 
 const AdminUserPanel = () => {
@@ -24,6 +25,28 @@ const AdminUserPanel = () => {
         setUserPanelOpen(true);
     }
 
+    const deleteUser = async (id: number | null) => {
+        confirm("Are you sure you want to delete this user")
+        try{
+            const response = await fetch(`/api/users/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            if (response.ok){
+                handleSearch('')
+            } else {
+                const errorData = await response.json();
+                alert(errorData.error);
+            }
+        } catch(err) {
+            console.error("Database Error: ", err);
+            alert('An unexpected error occurred');
+        }
+    }
+
     const closeEditPanel = () => {
         setUserPanelOpen(false);
         setSelectedUser(null);
@@ -44,7 +67,7 @@ const AdminUserPanel = () => {
             closeEditPanel()
             handleSearch('')
         } else {
-            console.log("Errror, response: ", response.status)
+            console.log("Error, response: ", response.status)
         }
     }
 
@@ -81,6 +104,16 @@ const AdminUserPanel = () => {
                                                     dark:hover:text-blue-400 dark:focus:text-blue-400'
                                                     onClick={() => openEditPanel(user)} >
                                                     Edit
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button 
+                                                    className='inline-flex items-center 
+                                                    gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-red-600 hover:text-red-800 
+                                                    focus:outline-none focus:text-red-800 disabled:opacity-50 disabled:pointer-events-none dark:text-red-500 
+                                                    dark:hover:text-blue-400 dark:focus:text-blue-400'
+                                                    onClick={() => deleteUser(user.id)} >
+                                                    Delete
                                                 </button>
                                             </td>
                                         </tr>

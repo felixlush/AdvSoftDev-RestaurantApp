@@ -359,7 +359,14 @@ export async function getUser(email: string): Promise<User | undefined> {
 
 export async function getUserSearch(search: string): Promise<User[]> {
     try {
-        const users = await sql<User>`SELECT id, name, email, type, address FROM users WHERE name ILIKE ${'%' + search + '%'} OR email ILIKE ${'%' + search + '%'} OR type ILIKE ${'%' + search + '%'}`
+        const users = await sql<User>`
+            SELECT id, name, email, type, address 
+            FROM users WHERE name 
+            ILIKE ${'%' + search + '%'} 
+            OR email ILIKE ${'%' + search + '%'} 
+            OR type ILIKE ${'%' + search + '%'}
+            order by id
+        `;
         return users.rows || [];
     } catch (error) {
         console.error('Failed to fetch user:', error);
@@ -379,7 +386,7 @@ export async function getUserById(id: string): Promise<User | undefined> {
 
 export async function fetchAllUsers(): Promise<User[] | undefined> {
     try {
-        const user = await sql<User>`SELECT * FROM users`;
+        const user = await sql<User>`SELECT * FROM users ORDER BY id`;
         return user.rows || [];
     } catch (error) {
         console.error('Failed to fetch users', error);
@@ -419,6 +426,24 @@ export async function updateOrderStatus(order_id: number, order_status: string, 
     } catch(error) {
         console.error('Database Error:', error);
         throw new Error('Failed to update order.');
+    }
+}
+
+export async function deleteUser(id: number){
+    try{
+        const result = await sql<User>`
+            DELETE FROM USERS
+            WHERE id = ${id}
+            RETURNING *;
+        `
+        if (result.rowCount == 0){
+            console.log("User not found")
+            return NextResponse.json({ error: 'User not found' }, { status: 404 });
+        }
+        return NextResponse.json({ message: 'User deleted successfully', user: result.rows[0] });
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to delete user.');
     }
 }
 
