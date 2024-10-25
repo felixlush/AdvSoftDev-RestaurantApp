@@ -136,7 +136,7 @@ export default function Header() {
                 <button onClick={handleCartClick}><CiShoppingCart /></button>
                 {loggedIn && <button onClick={handleLogout}><CiLogout /></button>}
             </div>
-            {cartOpen && <Cart cartOpen={cartOpen} closeCart={handleCartClick} />}
+            <Cart cartOpen={cartOpen} closeCart={handleCartClick}/>
         </nav>
     );
 };
