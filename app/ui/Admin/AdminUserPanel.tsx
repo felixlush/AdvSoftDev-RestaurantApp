@@ -9,6 +9,8 @@ const AdminUserPanel = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [isEditPanelOpen, setUserPanelOpen] = useState<boolean>(false);
+    const [addUserPanelOpen, setAddUserPanelOpen] = useState<boolean>(false);
+    const [newUser, setNewUser] = useState<User | null>(null);
 
     const handleSearch = async (term: string) => {
         const response = await fetch(`/api/users?search=${term}`);
@@ -25,6 +27,10 @@ const AdminUserPanel = () => {
         setUserPanelOpen(true);
     }
 
+    const closeEditPanel = () => {
+        setUserPanelOpen(false);
+        setSelectedUser(null);
+    }
     const deleteUser = async (id: number | null) => {
         confirm("Are you sure you want to delete this user")
         try{
@@ -47,9 +53,48 @@ const AdminUserPanel = () => {
         }
     }
 
-    const closeEditPanel = () => {
-        setUserPanelOpen(false);
-        setSelectedUser(null);
+    const openAddUserPanel = () => {
+        setNewUser({
+            id: null, 
+            name: '',
+            email: '',
+            address: '',
+            postcode: '',
+            type: '',
+            password: '',
+            telephone: '',
+        })
+        setAddUserPanelOpen(true);
+        
+    }
+
+    const closeAddUserPanel = () => {
+        setAddUserPanelOpen(false);
+        setNewUser(null)
+    }
+
+    const addUser = async (e: React.FormEvent) => {
+        e.preventDefault()
+        try {
+            const response = await fetch(`/api/users/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newUser)
+            })
+
+            if (response.ok){
+                closeAddUserPanel()
+                setNewUser(null);
+                handleSearch('')
+            } else {
+                console.log("Error: ", response.status)
+            }
+        } catch (error) {
+            console.error("Database Error: ", error);
+            alert('An unexpected error occurred');
+        }
     }
 
     const updateUser = async (e: React.FormEvent) => {
@@ -124,7 +169,7 @@ const AdminUserPanel = () => {
                             <p>No Users Found</p>
                         )} 
                     </div>
-                    <button className='rounded-md p-2 bg-green-700 text-white ml-4'>Add New User</button>
+                    <button className='rounded-md p-2 bg-green-700 text-white ml-4' onClick={openAddUserPanel}>Add New User</button>
                 </div>
             </div>
 
@@ -172,16 +217,94 @@ const AdminUserPanel = () => {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label className="block text-gray-700">Type</label>
-                                <input
-                                    type='select'
+                                <label className="block text-gray-700">Category</label>
+                                <select
                                     value={selectedUser.type}
                                     onChange={(e) => setSelectedUser({ ...selectedUser, type: e.target.value })}
                                     className="border rounded-lg p-2 w-full"
-                                />
+                                >
+                                        <option value={""} disabled>Select type</option>
+                                        <option value={"customer"}>Customer</option>
+                                        <option value={"admin"}>Admin</option>
+                                        <option value={"staff"}>Staff</option>
+                                </select>
                             </div>
                             <div className="flex justify-end space-x-4">
                                 <button type="button" onClick={closeEditPanel} className="bg-gray-500 text-white px-4 py-2 rounded-lg">Cancel</button>
+                                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {addUserPanelOpen && newUser && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+                        <div className='flex'>
+                        <h2 className="text-2xl font-bold mb-4 mr-auto">Add User</h2>
+                        </div>
+                        <form onSubmit={addUser}>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Name</label>
+                                <input
+                                    type="text"
+                                    value={newUser.name}
+                                    onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+                                    className="border rounded-lg p-2 w-full"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Address</label>
+                                <input
+                                    type="text"
+                                    value={newUser.address}
+                                    onChange={(e) => setNewUser({ ...newUser, address: e.target.value })}
+                                    className="border rounded-lg p-2 w-full"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Post Code</label>
+                                <input
+                                    type="text"
+                                    value={newUser.postcode}
+                                    onChange={(e) => setNewUser({ ...newUser, postcode: e.target.value })}
+                                    className="border rounded-lg p-2 w-full"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Email Address</label>
+                                <input
+                                    value={newUser.email}
+                                    onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                                    className="border rounded-lg p-2 w-full"
+                                />
+                            </div>                            
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Password</label>
+                                <input
+                                    type='password'
+                                    value={newUser.password}
+                                    onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+                                    className="border rounded-lg p-2 w-full"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Category</label>
+                                <select
+                                    value={newUser.type}
+                                    onChange={(e) => setNewUser({ ...newUser, type: e.target.value })}
+                                    className="border rounded-lg p-2 w-full"
+                                >
+                                        <option value={""} disabled>Select type</option>
+                                        <option value={"customer"}>Customer</option>
+                                        <option value={"admin"}>Admin</option>
+                                        <option value={"staff"}>Staff</option>
+                                </select>
+                            </div>
+
+                            <div className="flex justify-end space-x-4">
+                                <button type="button" onClick={closeAddUserPanel} className="bg-gray-500 text-white px-4 py-2 rounded-lg">Cancel</button>
                                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg">Save Changes</button>
                             </div>
                         </form>

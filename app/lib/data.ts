@@ -201,7 +201,7 @@ export async function addPaymentMethod(paymentMethod: PaymentMethod) {
         return { message: 'Payment added successfully', paymentMethod: result.rows[0] };
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to insert payment data.');
+        throw new Error('Failed to add user.');
     }
 }
 
@@ -427,8 +427,37 @@ export async function updateOrderStatus(order_id: number, order_status: string, 
         console.error('Database Error:', error);
         throw new Error('Failed to update order.');
     }
+
+
 }
 
+export async function createUserAdmin(user: User){
+    try{
+        const result = await sql<User>`
+            INSERT INTO users (
+                name,
+                email,
+                address,
+                postcode,
+                password,
+                type
+            )
+            VALUES (
+                ${user.name},
+                ${user.email},
+                ${user.address},
+                ${user.postcode},
+                ${user.password},
+                ${user.type}
+            )
+            RETURNING *;
+        `;
+        return { message: 'User added successfully', user: result.rows[0] };
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to insert menu item.');
+    }
+}
 export async function deleteUser(id: number){
     try{
         const result = await sql<User>`
