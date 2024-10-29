@@ -7,7 +7,7 @@ export default function Home() {
 
 
   return (
-    <main>
+    <main className='pt-40'>
       <Hero />
       <MenuPanel />
     </main>
