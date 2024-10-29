@@ -1,18 +1,14 @@
 'use client'
 import React, { useState } from 'react';
-import Header from '@/app/components/Header';
 import MenuSearch from '@/app/ui/Menu/MenuSearch';
-import MenuCardWrapper from '@/app/ui/Menu/MenuCardWrapper';
-import Footer from '../components/Footer';
+import MenuCardWrapper from '@/app/ui/Menu/MenuPanel';
 
 export default function Page() {
     const [searchTerm, setSearchTerm] = useState<string>('');
 
     return (
-        <>
-        <Header />
-        <MenuCardWrapper />
-        <Footer/>
-        </>
+        <div className='pt-40'>
+            <MenuCardWrapper />
+        </div>
     );
 }

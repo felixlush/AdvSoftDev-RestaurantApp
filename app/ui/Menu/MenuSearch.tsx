@@ -17,6 +17,12 @@ const MenuSearch: React.FC<MenuSearchProps> = ({ onSearch }) => {
         const bool = e.target.value;
     }
 
+    const clearSearch = (e: React.FormEvent) => {
+        e.preventDefault()
+        onSearch("");
+        setSearchTerm("");
+    }
+
     return (
         <div className="flex justify-center my-4">
         <input
@@ -26,6 +32,11 @@ const MenuSearch: React.FC<MenuSearchProps> = ({ onSearch }) => {
             onChange={handleInputChange}
             className="border rounded-l-md p-2 w-1/2 mr-10 "
         />
+        <div>
+            <button className='border-slate-600 border-solid bg-green-600 rounded-md text-white font-semibold p-2 hover:bg-green-500' onClick={clearSearch}>
+                Clear Filters
+            </button>
+        </div>
         </div>
     );
 }

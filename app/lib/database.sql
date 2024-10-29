@@ -22,7 +22,7 @@ CREATE TABLE MenuItems (
 
 CREATE TABLE Orders (
     order_id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL,
+    user_id INT,
     order_status VARCHAR(50) NOT NULL,
     total_amount NUMERIC(10, 2) NOT NULL,
     payment_status VARCHAR(50) NOT NULL,

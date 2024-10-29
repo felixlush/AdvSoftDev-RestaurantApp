@@ -14,14 +14,14 @@ export default function OrderViewPanel(props: OrderViewProps) {
     const fetchOrderDetails = async () => {
         const response = await fetch(`/api/orderItems/${props.order.order_id}`);
         const data = await response.json();
-        // console.log('API Response:', data)
         setOrderItems(data.orderItems || []); 
     }
 
     useEffect(() => {
         fetchOrderDetails()
-        console.log(orderItems)
-    }, [])
+        // console.log("Fetching order items")
+        // console.log(orderItems)
+    }, [props.order.order_id])
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

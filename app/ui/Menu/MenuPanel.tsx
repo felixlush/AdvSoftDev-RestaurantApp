@@ -1,13 +1,15 @@
 'use client'
 import { MenuItem } from '@/app/lib/definitions';
 import React, { useEffect, useState } from 'react'
-import MenuSearch from '../Menu/MenuSearch';
+import MenuSearch from './MenuSearch';
 import { useCart } from '@/app/context/CartContext';
-import { FaPlus, FaMinus } from "react-icons/fa6";
+import { FaPlus, FaMinus, FaCartShopping } from "react-icons/fa6";
+import Categories from '@/app/components/Categories';
 
 const MenuPanel = () => {
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const { addToCart } = useCart();
+    const [addedToCart, setAddedToCart] = useState<boolean>(false);
 
     const handleSearch = async (term: string) => {
         const response = await fetch(`/api/menu?search=${term}`);
@@ -22,10 +24,13 @@ const MenuPanel = () => {
 
     const handleAddToCart = (item: MenuItem) => {
         addToCart(item, 1);
+        setAddedToCart(true);
+        setTimeout(() => setAddedToCart(false), 3000)
     };
 
     return (
         <section>
+            <div><Categories handleFilter={handleSearch}/></div>
             <div><MenuSearch onSearch={handleSearch}/></div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
                 {menuItems.length > 0 ? (
@@ -40,7 +45,7 @@ const MenuPanel = () => {
                             <div className='flex'>
                                 <p className='text-green-600 font-semibold mr-auto'>${item.price}</p>
                                 <div className='flex space-x-3'>
-                                    <button className='justify-self-end bg-green-700 text-white rounded-md p-2' onClick={() => handleAddToCart(item)}>Add To Cart</button> 
+                                    <button className='justify-self-end bg-green-700 text-white rounded-md p-2 hover:bg-green-600' onClick={() => handleAddToCart(item)}>Add to cart</button> 
                                 </div>
                             </div>
                         </div>
@@ -49,6 +54,13 @@ const MenuPanel = () => {
                     <p>No menu items found</p>
                 )}
             </div>
+            {/* Animated Cart Icon */}
+            <button
+                className={`fixed bottom-5 right-5 p-2 bg-green-500 rounded-full shadow-lg 
+                    transition-transform transform ${addedToCart ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}
+            >
+                <p className="text-white font-semibold">Added to cart!</p>
+            </button>
         </section>
     );
 };
