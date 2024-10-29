@@ -24,7 +24,7 @@ test('get user by empty string', async () => {
 });
 
 test('get Payment methods by userID', async () =>{
-    let paymentMethods = await getPaymentMethodByUserID('1')
+    let paymentMethods = await getPaymentMethodByUserID('7')
     expect(paymentMethods.length).toBeGreaterThan(0)
 })
 
