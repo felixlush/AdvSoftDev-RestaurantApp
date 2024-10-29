@@ -33,7 +33,7 @@ export default function DashboardPage() {
 
     return (
         
-        <section>
+        <section className='pt-40'>
             {userId !== null &&
             <div>
                 <AccountCard userId={userId} />

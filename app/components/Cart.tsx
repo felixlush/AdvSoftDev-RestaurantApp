@@ -41,7 +41,7 @@ export default function Cart(props: cartProps){
 
     return(
         <div
-            className={`flex-col fixed right-0 top-10 z-30 bg-gray-200 py-8 md:py-16 rounded-md p-8 h-3/4 w-1/3 shadow-2xl overflow-scroll transition-transform duration-1000 ease-in-out ${
+            className={`flex-col fixed right-0 top-10 z-50 bg-gray-200 py-8 md:py-16 rounded-md p-8 h-full md:h-3/4 w-full md:w-1/3 shadow-2xl overflow-scroll transition-transform duration-1000 ease-in-out ${
                 props.cartOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
         >

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Bars from "react-loading-icons/dist/esm/components/bars";
 import OrderViewPanel from "./OrderViewPanel";
 
+
 interface orderIdProps{
     userId: number
 }
@@ -12,27 +13,36 @@ export default function OrdersCard(props: orderIdProps){
     const [orders, setOrders] = useState<Order[]>([])
     const [loading, setLoading] = useState<boolean>(true);
     const [isOrderPanelOpen, setOrderPanelOpen] = useState<boolean>(false)
+    const [error, setError] = useState<string | null>(null);
     const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
 
     useEffect(() => {
         const fetchOrder = async () => {
+            const timeStamp = Date.parse(new Date().toString());
             try {
-                const response = await fetch(`/api/orders/${props.userId}`);
+                const response = await fetch(`/api/orders/${props.userId}?t=${timeStamp}`, {
+                    cache: 'no-store',
+                });
                 const data = await response.json();
-                // console.log(data.orders);
-                setOrders(data.orders);
+                if (response.ok) {
+                    setOrders(data.orders);
+                    setError(null);
+                } else {
+                    setError(data.error || 'Failed to fetch orders.');
+                }
                 setLoading(false);
             }
             catch (e) {
-                console.log("Couldn't get orders: " , e)
+                console.log("Couldn't get orders: ", e);
+                setError('An unexpected error occurred.');
                 setLoading(false);
             }
         }
-        if (props.userId) {fetchOrder()}
-    }, [props.userId])
+        if (props.userId) { fetchOrder(); }
+    }, [props.userId]);
 
     if (loading) {
-        return <div><Bars/></div>; 
+        return <div><Bars /></div>;
     }
 
     function openOrderPanel(order: Order){

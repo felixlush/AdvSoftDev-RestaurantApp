@@ -7,8 +7,8 @@ export default function Page() {
     const [searchTerm, setSearchTerm] = useState<string>('');
 
     return (
-        <>
-        <MenuCardWrapper />
-        </>
+        <div className='pt-40'>
+            <MenuCardWrapper />
+        </div>
     );
 }

@@ -5,8 +5,6 @@ import bcrypt from 'bcrypt'
 import { NextResponse } from 'next/server'
 
 export async function createUser(email: string, password: string, address: string, name: string, postcode: string) {
-    
-    // console.log(password)
 
     if (!name || !email || !address || !password) {
         throw new Error('All fields are required');
@@ -28,7 +26,7 @@ export async function createUser(email: string, password: string, address: strin
 
 }
 
-export async function createOrder(client: any, user: User, totalAmount: number){ //
+export async function createOrder(client: any, user: User, totalAmount: number){ 
     try {
         const query = 
             `INSERT INTO Orders (user_id, order_status, total_amount, payment_status) 
@@ -396,11 +394,18 @@ export async function fetchAllUsers(): Promise<User[] | undefined> {
 
 export async function getOrdersByUserID(userID: string): Promise<Order[] | undefined> {
     try {
+        const userIdInt = parseInt(userID, 10);
+
+        //console.log(`Fetching orders for userID: ${userIdInt}`);
+
         const orders = await sql<Order>`
             SELECT order_id, order_status, total_amount, payment_status, created_at  
             FROM orders 
-            WHERE user_id = ${userID}
+            WHERE user_id = ${userIdInt}    
         `;
+
+        console.log(`Number of orders fetched: ${orders.rows.length}`);
+        console.log('Orders fetched:', orders.rows);
 
         return orders.rows || [];
     } catch (error) {

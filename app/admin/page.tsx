@@ -5,7 +5,7 @@ import AdminOrderPanel from '../ui/Admin/AdminOrderPanel'
 
 export default function Page(){
     return (
-        <div>
+        <div className='pt-40'>
             <AdminUserPanel />
             <AdminMenuPanel />
             <AdminOrderPanel />

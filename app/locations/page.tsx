@@ -85,7 +85,7 @@ const Locations = () => {
     }, [map]); // Add markers only after `map` is available
 
     return (
-        <div className="flex">
+        <div className="flex pt-40">
             <div
                 id="map"
                 style={{

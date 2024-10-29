@@ -78,65 +78,67 @@ export default function Header() {
     }
 
     return (
-        <nav className="container mx-auto md:justify-between lg:flex">
-            <div className="flex justify-center">
-                <Image
-                    className="mr auto"
-                    src={logo}
-                    alt="Restaurant Logo"
-                    width={120}
-                    height={100}
-                />
-            </div>
-            <div className='flex flex-col items-center sm:flex-row gap-x-20 gap-y-3'>
-                <NavLink
-                    title={"Home"}
-                    subtitles={["My Home", "Website Home"]}
-                    onClick={() => handleMenuClick("home")}
-                    isOpen={openMenu == "home"}
-                    href={"/"}
-                />
-                <NavLink
-                    title={"Menu"}
-                    subtitles={["Every restaurant", "My Restaurants", "Categories"]}
-                    onClick={() => handleMenuClick("menu")}
-                    isOpen={openMenu == "menu"}
-                    href={"/menu"}
-                />
-                <NavLink
-                    title={" Restaurant Locations"}
-                    subtitles={["Find your nearest location", "All locations"]}
-                    onClick={() => handleMenuClick("locations")}
-                    isOpen={openMenu == "locations"}
-                    href={"/locations"}
-                />
-                {
-                    loggedIn &&
-                    <NavLink
-                        title={"My Account"}
-                        subtitles={["Edit Menu", "Check Orders"]}
-                        onClick={() => handleMenuClick("dashboard")}
-                        isOpen={openMenu == "dashboard"}
-                        href={"/account/dashboard"}
+        <nav className="w-full fixed top-0 bg-white shadow-md z-50">
+            <div className="flex justify-between items-center max-w-screen-xl mx-auto px-4">
+                <div className="flex justify-center">
+                    <Image
+                        className="mr auto"
+                        src={logo}
+                        alt="Restaurant Logo"
+                        width={120}
+                        height={100}
                     />
-                }
-                {
-                    userType === "admin" &&
+                </div>
+                <div className='flex flex-col justify-center items-center sm:flex-row gap-x-20 gap-y-3'>
                     <NavLink
-                        title={"Admin"}
-                        subtitles={["Edit Menu", "Check Orders"]}
-                        onClick={() => handleMenuClick("admin")}
-                        isOpen={openMenu == "admin"}
-                        href={"/admin"}
+                        title={"Home"}
+                        subtitles={["My Home", "Website Home"]}
+                        onClick={() => handleMenuClick("home")}
+                        isOpen={openMenu == "home"}
+                        href={"/"}
                     />
-                }
+                    <NavLink
+                        title={"Menu"}
+                        subtitles={["Every restaurant", "My Restaurants", "Categories"]}
+                        onClick={() => handleMenuClick("menu")}
+                        isOpen={openMenu == "menu"}
+                        href={"/menu"}
+                    />
+                    <NavLink
+                        title={" Restaurant Locations"}
+                        subtitles={["Find your nearest location", "All locations"]}
+                        onClick={() => handleMenuClick("locations")}
+                        isOpen={openMenu == "locations"}
+                        href={"/locations"}
+                    />
+                    {
+                        loggedIn &&
+                        <NavLink
+                            title={"My Account"}
+                            subtitles={["Edit Menu", "Check Orders"]}
+                            onClick={() => handleMenuClick("dashboard")}
+                            isOpen={openMenu == "dashboard"}
+                            href={"/account/dashboard"}
+                        />
+                    }
+                    {
+                        userType === "admin" &&
+                        <NavLink
+                            title={"Admin"}
+                            subtitles={["Edit Menu", "Check Orders"]}
+                            onClick={() => handleMenuClick("admin")}
+                            isOpen={openMenu == "admin"}
+                            href={"/admin"}
+                        />
+                    }
+                </div>
+                <div className='flex justify-center gap-5 mr-6 mb-8 mt-8'>
+                    {loggedIn ? <button onClick={handleUserClick}><FaUser/></button> : <button onClick={handleUserClick}><CiUser/></button>}
+                    <button onClick={handleCartClick}><CiShoppingCart /></button>
+                    {loggedIn && <button onClick={handleLogout}><CiLogout /></button>}
+                </div>
+                <Cart cartOpen={cartOpen} closeCart={handleCartClick}/>
             </div>
-            <div className='flex justify-center gap-5 mr-6 mb-8 mt-8'>
-                {loggedIn ? <button onClick={handleUserClick}><FaUser/></button> : <button onClick={handleUserClick}><CiUser/></button>}
-                <button onClick={handleCartClick}><CiShoppingCart /></button>
-                {loggedIn && <button onClick={handleLogout}><CiLogout /></button>}
-            </div>
-            <Cart cartOpen={cartOpen} closeCart={handleCartClick}/>
         </nav>
     );
 };

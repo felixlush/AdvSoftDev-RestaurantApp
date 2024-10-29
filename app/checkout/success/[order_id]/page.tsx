@@ -53,7 +53,7 @@ const page = ({ params }: OrderSuccessProps) => {
 
   return (
     <section>
-      <div className="flex justify-center p-10">
+      <div className="flex justify-center p-10 pt-40">
         <div className="border rounded-lg p-4 shadow hover:shadow-lg transition w-full">
           {order && (
             <div>
