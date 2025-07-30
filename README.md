@@ -24,22 +24,4 @@ In order to use the admin panel features login with the account details
 email: "felix.lush-test@gmail.com"
 password: "password"
 
-Feature Contributions are:
-
-Felix:
-Checkout 
-Menu 
-
-William:
-Cart 
-Home Page 
-
-Alexis
-Login + Account Creation 
-User Panel 
-
-Kelton:
-Admin Panel 
-Locations 
-
 
